@@ -12,7 +12,7 @@ public class UsersController {
         return "success";
     }
     @ResponseBody
-    public String Login(){
-        return "success11";
+    public String Login11(){
+        return "success";
     }
 }
