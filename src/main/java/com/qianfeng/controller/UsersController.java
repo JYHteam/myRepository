@@ -11,4 +11,8 @@ public class UsersController {
     public String doLogin(){
         return "success";
     }
+    @ResponseBody
+    public String Login1(){
+        return "success";
+    }
 }
