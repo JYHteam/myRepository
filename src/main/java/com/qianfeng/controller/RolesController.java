@@ -24,6 +24,7 @@ public class RolesController {
     //显示所有的角色
     @RequestMapping("findAllRoles")
     public List<Roles> findAllRoles() {
+
         return rd.findAllRoles();
     }
 
