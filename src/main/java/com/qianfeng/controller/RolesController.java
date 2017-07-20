@@ -20,7 +20,6 @@ import java.util.List;
 public class RolesController {
     @Resource
     private RolesDao rd;
-
     //显示所有的角色
     @RequestMapping("findAllRoles")
     public List<Roles> findAllRoles(){
