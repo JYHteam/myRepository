@@ -6,11 +6,38 @@
     <select id="login" resultType="com.qianfeng.bean.Users">
         SELECT * FROM users WHERE users_account=#{account} AND users_pwd=#{password}
     </select>
-    <select id="findUsers" >
-      <bind name="users_account" value="'%'+users_account+'%'"/>
-        SELECT * FROM users WHERE users_account LIKE  #{account}
+    <select id="findUsers"  resultType="com.qianfeng.bean.Users">
+        SELECT * FROM users u
+        <where>
+         <if test="users_account !=null ">
+           u.users_account LIKE CONCAT(CONCAT('%', #{users_account, jdbcType=VARCHAR}),'%')
+         </if>
+        </where>
     </select>
     <select id="findAllUsers" resultType="com.qianfeng.bean.Users">
-        SELECT * FROM users
+        SELECT * FROM users limit #{start},2
     </select>
+    <!--添加新用户-->
+    <insert id="addUsers" parameterType="com.qianfeng.bean.Users">
+        INSERT INTO users(users_account,users_pwd)VALUES (#{users_account},#{users_pwd})
+    </insert>
+    <!--修改用户信息-->
+    <update id="updateUsers" parameterType="com.qianfeng.bean.Users">
+        UPDATE users u <set >
+        <if test="users_account != null" >
+            u.users_account = #{users_account,jdbcType=VARCHAR},
+        </if>
+        <if test="users_pwd != null" >
+            u.users_pwd = #{users_pwd,jdbcType=VARCHAR},
+        </if>
+    </set>
+        where u.id = #{id,jdbcType=INT}
+    </update>
+    <!--删除用户信息-->
+    <delete id="removeUsers">
+        DELETE users u WHERE u.id IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+    </delete>
 </mapper>
