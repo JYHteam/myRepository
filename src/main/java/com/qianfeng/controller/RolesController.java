@@ -50,7 +50,6 @@ public class RolesController {
     //分配角色(增+改)
     @RequestMapping("fenp")
     public String fenp(@RequestBody ArrayList<Integer> data) {
-
         return "rd.fenp(data)";
     }
 
