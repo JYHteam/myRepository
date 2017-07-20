@@ -5,18 +5,18 @@ import java.io.Serializable;
 
 public class Users implements Serializable {
     private int id;
-    private String account;
-    private String pwd;
-    private int status;
+    private String users_account;
+    private String users_pwd;
+    private int users_status;
 
     public Users() {
     }
 
-    public Users(int id, String account, String pwd, int status) {
+    public Users(int id, String users_account, String users_pwd, int users_status) {
         this.id = id;
-        this.account = account;
-        this.pwd = pwd;
-        this.status = status;
+        this.users_account = users_account;
+        this.users_pwd = users_pwd;
+        this.users_status = users_status;
     }
 
     public int getId() {
@@ -27,27 +27,27 @@ public class Users implements Serializable {
         this.id = id;
     }
 
-    public String getAccount() {
-        return account;
+    public String getUsers_account() {
+        return users_account;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setUsers_account(String users_account) {
+        this.users_account = users_account;
     }
 
-    public String getPwd() {
-        return pwd;
+    public String getUsers_pwd() {
+        return users_pwd;
     }
 
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+    public void setUsers_pwd(String users_pwd) {
+        this.users_pwd = users_pwd;
     }
 
-    public int getStatus() {
-        return status;
+    public int getUsers_status() {
+        return users_status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setUsers_status(int users_status) {
+        this.users_status = users_status;
     }
 }
