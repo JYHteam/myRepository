@@ -30,7 +30,7 @@ public class RolesController {
     //通过用户查询对应角色
     @RequestMapping("findRolesByUser")
     public List<Roles> findRolesByUser(HttpSession session) {
-        Users user =  (Users) session.getAttribute("user");
+        Users user = (Users) session.getAttribute("user");
         return rd.findRolesByUser(user.getId());
     }
 
