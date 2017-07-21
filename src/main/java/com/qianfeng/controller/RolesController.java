@@ -3,27 +3,43 @@ package com.qianfeng.controller;
 import com.qianfeng.bean.Roles;
 import com.qianfeng.bean.Users;
 import com.qianfeng.dao.RolesDao;
+import com.qianfeng.service.RolesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.management.relation.Role;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-/**
- * Created by Administrator on 2017/7/20 0020.
- */
+
 @Controller
 public class RolesController {
     @Resource
     private RolesDao rd;
+    @Resource
+    private RolesService rs;
     //显示所有的角色
-    @RequestMapping("findAllRoles")
-    public List<Roles> findAllRoles(){
-        return rd.findAllRoles();
+    @RequestMapping("findAllRoles.do")
+    @ResponseBody
+    public Map<String,Object> findAllRoles(int page, int pagesize){
+
+
+        Map<String,Object> rolesMap=new HashMap<String, Object>();
+        int start=(page-1)*pagesize;
+        List<Roles> allRoles = rd.findAllRoles(start, pagesize);
+        System.out.print("duixiang"+allRoles);
+        int total= rd.countRoles();
+        System.out.print("zongshu"+total);
+        rolesMap.put("total",total);
+        rolesMap.put("allroles",allRoles);
+        return rolesMap;
+       // return rs.findAllRoles(page,pagesize);
     }
 
     //通过用户查询对应角色

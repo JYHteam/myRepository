@@ -14,9 +14,13 @@
             <result property="roles_status" column="roles_status"/>
         </collection>
     </resultMap>
+
+    <select id="countRoles" resultType="java.lang.Integer">
+        SELECT count(id)  from roles
+    </select>
     <!--查询所有的角色-->
-    <select id="findAllRoles">
-        select * from roles
+    <select id="findAllRoles" resultType="com.qianfeng.bean.Roles">
+        select * from roles limit #{start},#{pagesize}
     </select>
     <!--根据用户名查询-->
     <select id="findRolesByUser" resultMap="m1">
@@ -28,7 +32,7 @@
 
     </select>
     <!--根据角色查询-->
-    <select id="findUsersByRoles"resultMap="m1">
+    <select id="findUsersByRoles" resultMap="m1">
       SELECT id ,users_account,users_status
       FROM
       roles_users ru

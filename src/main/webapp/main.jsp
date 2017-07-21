@@ -1,5 +1,5 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE HTML >
 <html>
 <head>
     <title>Title</title>
@@ -26,7 +26,7 @@
                     //判断是否存在
                     var had=$("#work").tabs("exists",row.name);
                     var node1=  JSON.stringify(row);
-                    alert(node1)
+                   // alert(node1)
                     if(!had) {
                         $("#work").tabs("add", {
                             title: row.name,

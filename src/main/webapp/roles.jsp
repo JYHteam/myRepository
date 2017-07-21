@@ -1,18 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2017/7/20 0020
-  Time: 14:08
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>角色管理</title>
-</head>
-<body>
-<%--<!-- 角色搜索弹框 -->
-<div class="easyui-panel" title="搜索" style="width:100%;height:100px">
+<div id="mytable"></div>
+<!-- 角色搜索弹框 -->
+<%--<div class="easyui-panel" title="搜索" style="width:100%;height:100px">
     <input class="easyui-searchbox" data-options="menu:'#choice',prompt:'输入搜索关键字',searcher:doSearch"/>
     <div id="choice">
         <div data-options="name:'account'">账号</div>
@@ -22,39 +12,33 @@
 <!-- 角色弹框 -->
 <div id="roles_window" class="easyui-window"
      style="width:300px;height:400px;" data-options="closed:true,modal:true">
-    <ul id="roles_tree" class="easyui-tree"
+    <%--<ul id="roles_tree" class="easyui-tree"
         data-options="url:'findAllRoles.do',checkbox:true">
-    </ul>
+    </ul>--%>
     <div>
         <a class="easyui-linkbutton" href="javascript:dofenp()">分配</a>
     </div>
 </div>
 <script type="text/javascript">
     function init() {
-        $("#roles").datagrid({
-
+        $("#mytable").datagrid({
+            title : "角色管理",
+            pagination:true,
             columns: [[
                 {
-                    filed: "id",
+                    field: "id",
                     title: "id",
-                    checkbox: ture
+                    checkbox: true
                 },
                 {
-                    filed: "account",
-                    title: "账号",
+                    field: "roles_name",
+                    title: "角色",
                     width: 100
-                },
-                {
-                    field: "pwd",
-                    title: "密码",
-                    width: 100
-                },
-                {
-                    field:"roles",
-                    title:"角色",
-                    width:100
-
+                    /*formatter:function (value,row,index) {
+                        return row.users.account;
+                    }*/
                 }
+
 
             ]],
             toolbar: [
@@ -63,30 +47,51 @@
                     text: "删除",
                     iconCls: "icon-remove",
                     handler: function () {
-                        remove();
+                        //remove();
                     }
                 },
                 {
-                    text: "分配角色",
+                    text: "分配资源权限",
                     iconCls: "icon-search",
                     handler: function () {
-                        fenp();
+                       // fenp();
                     }
                 }
             ]
         });
-        load2(1);
+        load2(1,5);
     }
+
     //加载数据
-    function load2(p) {
+   function load2(p,size) {
         //获取服务端的json数据
-        $.getJSON("findAllRoles.do", function(d) {
+        $.getJSON("findAllRoles.do", {
+            page:p,
+            pagesize:size
+        },function(d) {
+           var jsons= JSON.stringify(d.allroles)
+           // alert(jsons)
+            var datas=d.allroles;
             //填充数据
-            $("#roles").datagrid("loadData", d);
+            $("#mytable").datagrid("loadData", datas);
+            var pager=$("#mytable").datagrid("getPager");
+            pager.pagination({
+                total:d.total,
+                pageSize:5,
+                pageList:[5,10],
+                pageNumber:p,
+                onSelectPage:function (page,size) {
+                    load2(page,size);
+                },
+                beforePageText : '第',
+                afterPageText : '页,共{pages}页',
+                displayMsg : '共{total}条数据'
+            });
 
         });
     }
-    /*//删除
+    $(init);
+   /* //删除
     function remove() {
         var data = $("#roles").datagrid("getSelections");
         var ids = [];
@@ -104,9 +109,9 @@
                 load2(1);
             }
         });
-    }
+    }*/
     //分配角色
-    function fenp() {
+   /* function fenp() {
         var user = $("#roles").datagrid("getSelected");
         //判断是否选择好账号
         if (user) {
@@ -140,5 +145,4 @@
         });
     }*/
 </script>
-</body>
-</html>
+

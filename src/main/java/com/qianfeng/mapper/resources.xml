@@ -3,25 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qianfeng.dao.ResourcesDao">
-   <!-- <resultMap type="com.qianfeng.bean.Resources" id="resourcesMap">
-        <result property="id" column="id"/>
-        <result property="text" column="resource_name"/>
-        <collection property="children" ofType="com.qianfeng.bean.Resources">
-            <result property="id" column="bid"/>
-            <result property="text" column="bresource_name"/>
-        </collection>
-    </resultMap>
-    <select id="findAllResources" resultMap="resourcesMap">
-        select a.id,a.resource_name,b.id as bid,b.resource_name AS bresource_name from resources  a left join resources  b on a.id=b.resource_parentid WHERE a.resource_parentid=0
-    </select>
--->
     <resultMap type="com.qianfeng.bean.Resources" id="resourcesMap1">
         <result property="id" column="id"/>
         <result property="name" column="resource_name"/>
         <result property="_parentId" column="resource_parentid"/>
         <result property="path" column="resource_path"/>
     </resultMap>
-
+    <!--查询所有资源-->
     <select id="findAllResources" resultMap="resourcesMap1">
         SELECT id, resource_name , resource_path ,(CASE WHEN resource_parentid=0 THEN NULL ELSE resource_parentid END) as resource_parentid from resources
     </select>

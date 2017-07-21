@@ -13,14 +13,11 @@ import java.util.List;
 public class UsersController {
     @Resource
     private UsersDao ud;
-    @RequestMapping("dologin.do")
+  /*  @RequestMapping("dologin.do")
     @ResponseBody
     public List<Users> doLogin(){
 
         return ud.findAllUsers();
-    }
-    @ResponseBody
-    public String Login11(){
-        return "aaasuccess";
-    }
+    }*/
+
 }
