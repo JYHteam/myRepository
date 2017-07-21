@@ -3,6 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qianfeng.dao.UsersDao">
+    <select id="findUsersByCount" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM users
+    </select>
     <select id="login" resultType="com.qianfeng.bean.Users">
         SELECT * FROM users WHERE users_account=#{users_account} AND users_pwd=#{users_pwd}
     </select>
@@ -15,7 +18,7 @@
         </where>
     </select>
     <select id="findAllUsers" resultType="com.qianfeng.bean.Users">
-        SELECT * FROM users limit #{start},2
+        SELECT * FROM users limit #{start},#{size}
     </select>
     <!--添加新用户-->
     <insert id="addUsers" parameterType="com.qianfeng.bean.Users">

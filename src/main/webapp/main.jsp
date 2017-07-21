@@ -5,11 +5,43 @@
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="css/icon.css">
     <link rel="stylesheet" type="text/css" href="css/easyui.css">
-   <link rel="stylesheet" type="text/css" href="css/top.css">
+    <link rel="stylesheet" type="text/css" href="css/top.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/easyui.js"></script>
-
+    <script>
+        function init() {
+           /* $("#menu_tree").treegrid({
+                url: "findAllResources.do",
+                idField: 'id',           //定义标识树节点的键名字段
+                treeField: 'name',       //定义树节点的字段
+                fit: true,               //网格自动撑满
+                fitColumns: true,        //设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动。
+                columns: [[
+                    {field: 'name', title: '导航目录', width: 120}
+                ]]
+            });*/
+            $("#menu_tree").treegrid({
+                onClickRow:function (row) {
+                    //判断是否存在
+                    var had=$("#work").tabs("exists",row.name);
+                    var node1=  JSON.stringify(row);
+                    alert(node1)
+                    if(!had) {
+                        $("#work").tabs("add", {
+                            title: row.name,
+                            closable: true,
+                            href: row.path
+                        });
+                    }
+                       else{
+                        $("#work").tabs("select",row.name);
+                    }
+                }
+            })
+        }
+        $(init);
+    </script>
 </head>
 <body>
     <div class="easyui-layout" style="width: 100%;height:800px">
@@ -37,8 +69,20 @@
         </div>
 
         <!--导航栏-->
-        <div data-options="region:'west',split:true" title="导航栏" style="width:200px;">
-            <ul id="menu_tree" class="easyui-tree" data-options="url:'#'"></ul>
+        <div data-options="region:'west',split:true" title="导航栏" style="width:220px;">
+            <div id="menu_tree" class="easyui-treegrid" data-options="url: 'findAllResources.do',
+				method: 'get',
+				rownumbers: true,
+				showFooter: true,
+				 idField: 'id',
+                treeField: 'name',
+                columns: [[
+                    {field: 'name', title: '导航目录', width: 120}
+                ]]
+				<%--treeField: 'region'--%>">
+
+
+            </div>
 
         </div>
 

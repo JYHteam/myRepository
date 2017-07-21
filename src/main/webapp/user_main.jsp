@@ -91,25 +91,24 @@
                 ]
 
             });
-            load1(1);
+            load1(1,5);
         }
-        function load1(p) {
-            $.getJSON("findAllUsers.do",{page:p},function (d) {
+        function load1(p,size) {
+            $.getJSON("findAllUsers.do",{page:p,pageSize:size},function (d) {
                //填充数据
-                $("#user_main").datagrid("loadData",d);
+                $("#user_main").datagrid("loadData",d.users);
                 //获取分页组件
                var pager= $("#user_main").datagrid("getPager");
                pager.pagination({
-                   total:4,
-                   pageSize:2,
+                   total:d.total,
                    pageNumer:p,
-                   pageList:[1,2,3],
+                   pageList:[5,10,20],
                    beforePageText:'第',
                    afterPageText:'页  共{pages}页',
                    displayMsg:'当前显示 {from} - {to} 条记录   共 {total} 条记录',
                    onSelectPage:function(page,size){
 
-                       load1(page);
+                       load1(page,size);
                    }
                });
             });

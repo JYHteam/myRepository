@@ -20,10 +20,23 @@ public class UsersServices {
 
     }
 
-//    public List<Users> findAllUsers(int start){
-//        List<Users> allusers=ud.findAllUsers(start);
-//            return allusers;
-//    }
+    public Map<String,Object> findAllUsers(int page,int size){
+       try {
+           Map<String, Object> map = new HashMap<String, Object>();
+           int start = (page-1)*size;
+           System.out.println(start);
+           List<Users> allusers = ud.findAllUsers(start,size);
+           System.out.println("........"+allusers);
+           int total = ud.findUsersByCount();
+           System.out.println("////////total"+total);
+           map.put("total", total);
+           map.put("users", allusers);
+           return map;
+       }catch (Exception e){
+           e.printStackTrace();
+       }
+       return null;
+    }
     //添加
     public int addUsers(Users users ){
       try {

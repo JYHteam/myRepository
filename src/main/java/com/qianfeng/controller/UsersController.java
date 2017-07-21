@@ -30,12 +30,9 @@ public class UsersController {
     //查询所有用户
     @RequestMapping("findAllUsers.do")
     @ResponseBody
-    public List<Users> findAllUsers(int page){
-        System.out.println("......."+page);
-        int start=(page-1)*2;
-        List<Users> allusers= ud.findAllUsers(start);
-        System.out.println(">>>>>>>>>"+allusers);
-        return allusers;
+    public Map<String,Object> findAllUsers(int page,int size){
+        System.out.println(page+"......"+size);
+        return us.findAllUsers(page,size);
     }
     //添加新用户
     @RequestMapping("addUsers.do")
