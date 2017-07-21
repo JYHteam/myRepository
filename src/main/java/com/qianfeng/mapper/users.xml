@@ -11,6 +11,6 @@
         SELECT * FROM users WHERE users_account LIKE  #{account}
     </select>
     <select id="findAllUsers" resultType="com.qianfeng.bean.Users">
-        SELECT * FROM users
+        SELECT id  FROM users
     </select>
 </mapper>
