@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qianfeng.dao.UsersDao">
     <select id="login" resultType="com.qianfeng.bean.Users">
-        SELECT * FROM users WHERE users_account=#{account} AND users_pwd=#{password}
+        SELECT * FROM users WHERE users_account=#{users_account} AND users_pwd=#{users_pwd}
     </select>
     <select id="findUsers"  resultType="com.qianfeng.bean.Users">
         SELECT * FROM users u
@@ -40,4 +40,18 @@
           #{item}
         </foreach>
     </delete>
+    <!--搜索-->
+    <select id="searchUsersBylike" parameterType="map" resultType="com.qianfeng.bean.Users">
+        select * from users
+        <where>
+            <if test="type!=null and type != ''">
+              <if test="type=='users_account'">
+                AND users_account like CONCAT(CONCAT('%',#{key},'%'))
+               </if>
+              <if test="type=='users_pwd'">
+               AND users_pwd like CONCAT(CONCAT('%',#{key},'%'))
+              </if>
+            </if>
+        </where>
+    </select>
 </mapper>

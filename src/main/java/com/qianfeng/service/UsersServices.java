@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UsersServices {
@@ -54,5 +56,17 @@ public class UsersServices {
             e.printStackTrace();
             return -1;
         }
+    }
+    //搜索
+    public List<Users> searchUsersBylike(String type,String key){
+       try {
+           Map<String, String> data = new HashMap<String, String>();
+           data.put("type", type);
+           data.put("key", "%" + key + "%");
+           return ud.searchUsersBylike(data);
+       }catch (Exception e){
+           e.printStackTrace();
+           return null;
+       }
     }
 }

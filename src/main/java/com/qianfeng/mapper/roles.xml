@@ -28,7 +28,7 @@
 
     </select>
     <!--根据角色查询-->
-    <select id="findUsersByRoles"resultMap="m1">
+    <select id="findUsersByRoles" resultMap="m1">
       SELECT id ,users_account,users_status
       FROM
       roles_users ru

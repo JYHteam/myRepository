@@ -6,7 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div id="user_main"></div>
+<div class="easyui-panel" title="搜索" style="width:100%;height:100px">
+    <input class="easyui-searchbox" data-options="menu:'#choice',prompt:'输入搜索关键字',searcher:doSearch"/>
+    <div id="choice">
+        <div data-options="name:'users_account'">账号</div>
+        <div data-options="name:'users_pwd'">密码</div>
+    </div>
+</div>
+<div id="user_main" class="easyui_pagination"></div>
 <%--添加用户--%>
 <div id="user_window" class="easyui_window" style="width: 400px;height: 400px" data-options="closed:true;modal:true">
 <div style="height: 100%;width: 100%;display: flex;justify-content: center;align-items:center;background-color: greenyellow;">
@@ -40,17 +47,47 @@
             $("#user_main").datagrid({
                 title:"用户管理",
                pagination:true,
+                rownumbers:true,
+                singleSelect:true,
                 columns:[[
-                    {field:"id",title:"序号",checkbox:true,width:80},
-                    {field:"users_account",title:"账号",width:100},
-                    {field:"users_pwd",title:"密码",width:100},
-                    {field:"users_status",title:"登录状态",width:100}
+                    {
+                        field:"id",
+                        title:"序号",
+                        checkbox:true,
+                        width:80
+                    },
+                    {
+                        field:"users_account",
+                        title:"账号",
+                        width:100
+                    },
+                    {
+                        field:"users_pwd",
+                        title:"密码",
+                        width:100
+                    },
+                    {
+                        field:"users_status",
+                        title:"登录状态",
+                        width:100
+                    }
                 ]],
                 toolbar:[
-                    {text:"添加",icon_Cls:"icon_add",handler:function () {addUsers();}},
-                    {text:"删除",icon_Cls:"icon_remove",handler:function () {removeUsers();}},
-                    {text:"修改",icon_Cls:"icon_edit",handler:function () {updateUsers();}},
-                    {text:"分配权限",icon_Cls:"icon_edit",handler:function(){fenp();}}
+                    {
+                        text:"添加",
+                        icon_Cls:"icon_add",
+                        handler:function () {addUsers();}
+                    },
+                    {
+                        text:"删除",
+                        icon_Cls:"icon_remove",
+                        handler:function () {removeUsers();}
+                    },
+                    {
+                        text:"修改",
+                        icon_Cls:"icon_edit",
+                        handler:function () {updateUsers();}
+                    }
                 ]
 
             });
@@ -67,6 +104,9 @@
                    pageSize:2,
                    pageNumer:p,
                    pageList:[1,2,3],
+                   beforePageText:'第',
+                   afterPageText:'页  共{pages}页',
+                   displayMsg:'当前显示 {from} - {to} 条记录   共 {total} 条记录',
                    onSelectPage:function(page,size){
 
                        load1(page);
@@ -146,6 +186,18 @@
                         $.messager.alert("系统提示","用户修改失败");
                     }
                 }
+            });
+        }
+        //搜索
+        function doSearch(key,type){
+            $.getJSON("searchUsersBylike.do",{type:type,key:key},function(d){
+                if(d!=null){
+                    $("#user_main").datagrid("loadData",d);
+                }else{
+                    //最好指定一个错误的页面，即发生异常时跳转的页面
+                    $.messager.alert("系统提示","服务器崩溃了")
+                }
+
             });
         }
       init();

@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UsersController {
@@ -18,18 +20,14 @@ public class UsersController {
     private UsersDao ud;
     @Resource
     private UsersServices us;
-
+    //查询单个用户
     @RequestMapping("dologin.do")
     @ResponseBody
     public String doLogin(Users users){
         ud.login(users);
         return "success";
     }
-    @RequestMapping("findUsersByAcc.do")
-    @ResponseBody
-    public void findUsersByAcc(){
-
-    }
+    //查询所有用户
     @RequestMapping("findAllUsers.do")
     @ResponseBody
     public List<Users> findAllUsers(int page){
@@ -57,5 +55,11 @@ public class UsersController {
     @ResponseBody
     public int updateUsers(Users users){
         return us.updateUsers(users);
+    }
+    //搜索用户
+    @RequestMapping("searchUsersBylike.do")
+    @ResponseBody
+    public List<Users> searchUsersBylike(String type,String key){
+        return us.searchUsersBylike(type,key);
     }
 }

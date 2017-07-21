@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface UsersDao {
@@ -20,4 +21,6 @@ public interface UsersDao {
     void removeUsers(ArrayList<Integer> data);
     //修改用户信息
     void updateUsers(Users users);
+    //搜索
+    List<Users> searchUsersBylike(Map<String,String>data);
 }
