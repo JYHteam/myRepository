@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,7 @@ public class UsersController {
     @RequestMapping("addUsers.do")
     @ResponseBody
     public int addUsers(Users users){
+        System.out.println("添加huang----"+users.toString());
        return us.addUsers(users);
     }
     //删除用户信息

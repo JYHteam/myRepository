@@ -17,9 +17,9 @@ public class MD5Utils {
             for (int i=0;i<des.length;i++){
                 int y=(int)des[i]&0xff;
                 //干预-加盐
-                Random rand= new Random();
-                int m= rand.nextInt();
-                y=y+m;
+//                Random rand= new Random();
+//                int m= rand.nextInt();
+                y=y+5;
                 if(y<16){
                     sd.append(0);
                 }

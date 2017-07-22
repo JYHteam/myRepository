@@ -2,10 +2,12 @@ package com.qianfeng.service;
 
 import com.qianfeng.bean.Users;
 import com.qianfeng.dao.UsersDao;
+import com.qianfeng.utils.MD5Utils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,16 +40,29 @@ public class UsersServices {
        return null;
     }
     //添加
-    public int addUsers(Users users ){
-        System.out.println("添加"+users);
+    public int addUsers(Users users){
+
+
+        int xhr=-1;
       try {
-          ud.addUsers(users);
-          return 0;
+         Map<String,String> map=ud.validboxFindUsers(users);
+
+          System.out.println(map);
+            if (map!=null) {
+              xhr=0;
+            }
+          if (map==null) {
+              String users_pwd= MD5Utils.md5(users.getUsers_pwd());
+              Map<String,Object> map1=new HashMap<String, Object>();
+              map1.put("users_account",users.getUsers_account());
+              map1.put("users_pwd",users_pwd);
+              ud.addUsers(map1);
+              xhr=1;
+          }
       }catch (Exception e){
           e.printStackTrace();
       }
-        return -1;
-
+      return xhr;
     }
     //删除
     public String removeUsersByStatus( ArrayList<Integer> data){
@@ -64,8 +79,12 @@ public class UsersServices {
     //修改
     public int updateUsers(Users users){
         System.out.println("修改"+users);
+        Map<String,String> map=new HashMap<String, String>();
         try{
-            ud.updateUsers(users);
+            String users_pwd = MD5Utils.md5(users.getUsers_pwd());
+            map.put("users_account",users.getUsers_account());
+            map.put("users_pwd",users.getUsers_pwd());
+            ud.updateUsers(map);
             return 1;
         }catch (Exception e){
             e.printStackTrace();
