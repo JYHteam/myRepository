@@ -29,17 +29,7 @@ public class RolesController {
     @ResponseBody
     public Map<String,Object> findAllRoles(int page, int pagesize){
 
-
-        Map<String,Object> rolesMap=new HashMap<String, Object>();
-        int start=(page-1)*pagesize;
-        List<Roles> allRoles = rd.findAllRoles(start, pagesize);
-        System.out.print("duixiang"+allRoles);
-        int total= rd.countRoles();
-        System.out.print("zongshu"+total);
-        rolesMap.put("total",total);
-        rolesMap.put("allroles",allRoles);
-        return rolesMap;
-       // return rs.findAllRoles(page,pagesize);
+       return rs.findAllRoles(page,pagesize);
     }
 
     //通过用户查询对应角色

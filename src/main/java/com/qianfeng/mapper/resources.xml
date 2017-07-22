@@ -13,4 +13,19 @@
     <select id="findAllResources" resultMap="resourcesMap1">
         SELECT id, resource_name , resource_path ,(CASE WHEN resource_parentid=0 THEN NULL ELSE resource_parentid END) as resource_parentid from resources
     </select>
+    <!--根据角色查询资源权限-->
+    <select id="findResourcesByRole" resultMap="resourcesMap1">
+        SELECT id, resource_name , resource_path ,(CASE WHEN resource_parentid=0 THEN NULL ELSE resource_parentid END) as resource_parentid from resources p LEFT JOIN roles_resources r on p.id=r.resource_id WHERE r.roles_id=#{roles_id}
+    </select>
+    <!--根据角色删除资源权限-->
+    <delete id="deleteResourcesByRole">
+        DELETE  from roles_resources where roles_id=#{roles_id}
+    </delete>
+    <!--分配资源权限-->
+    <insert id="fenpResource" parameterType="HashMap">
+        INSERT  into roles_resources(roles_id,resource_id) values
+        <foreach collection="arrjson" item="resource_id" separator=",">
+            (#{roles_id},#{resource_id})
+        </foreach>
+    </insert>
 </mapper>

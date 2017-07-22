@@ -23,9 +23,9 @@ public class RolesService {
     public Map<String,Object> findAllRoles(int page,int pagesize){
         int start=(page-1)*pagesize;
         List<Roles> allRoles = rd.findAllRoles(start, pagesize);
-        System.out.print("duixiang"+allRoles);
+       // System.out.print("duixiang"+allRoles);
         int total= rd.countRoles();
-        System.out.print("duixiang"+total);
+        //System.out.print("duixiang"+total);
         Map<String,Object> rolesMap=new HashMap<String, Object>();
         rolesMap.put("total",total);
         rolesMap.put("allroles",allRoles);

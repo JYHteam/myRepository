@@ -22,14 +22,18 @@
     <select id="findAllRoles" resultType="com.qianfeng.bean.Roles">
         select * from roles limit #{start},#{pagesize}
     </select>
-    <!--根据用户名查询-->
-    <select id="findRolesByUser" resultMap="m1">
-        SELECT id,roles_name,roles_status
+    <resultMap type="com.qianfeng.bean.Roles" id="m2">
+        <!-- 保证表与实体类一一对应 -->
+        <result property="id" column="id"/>
+        <result property="roles_name" column="roles_name"/>
+    </resultMap>
+    <!--根据用户名查询角色-->
+    <select id="findRolesByUser" resultMap="m2">
+        SELECT id,roles_name
         FROM
         roles_users ru
-        LEFT join roles  on ru.id=id
+        LEFT join roles  on ru.role_id=id
         where ru.user_id=#{user_id}
-
     </select>
     <!--根据角色查询-->
     <select id="findUsersByRoles" resultMap="m1">

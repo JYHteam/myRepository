@@ -7,7 +7,7 @@ public class Roles {
     private int id;
     private String roles_name;
     private String roles_status;
-
+    private Users users;
     public Roles() {
     }
 
@@ -39,6 +39,14 @@ public class Roles {
 
     public void setRoles_status(String roles_status) {
         this.roles_status = roles_status;
+    }
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
     }
 }
 

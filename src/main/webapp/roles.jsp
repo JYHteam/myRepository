@@ -10,14 +10,28 @@
     </div>
 </div>--%>
 <!-- 角色弹框 -->
-<div id="roles_window" class="easyui-window"
-     style="width:300px;height:400px;" data-options="closed:true,modal:true">
-    <%--<ul id="roles_tree" class="easyui-tree"
-        data-options="url:'findAllRoles.do',checkbox:true">
-    </ul>--%>
+<div id="resource_window" title="资源分配" class="easyui-window"
+     style="width:500px;height:700px;" data-options="closed:true,modal:true">
+    <div id="resource_tree" class="easyui-treegrid" data-options="url:'findAllResources.do',
+				method: 'get',
+				rownumbers: true,
+				showFooter: true,
+				checkbox:true,
+				idField: 'id',
+				singleSelect:false,
+                treeField: 'name',
+                columns: [[
+                    {field: 'name', title: '资源目录', width: 160},
+                    {field: 'path', title: '资源路径', width: 120}
+                ]]
+				<%--treeField: 'region'--%>">
+
+
+    </div>
     <div>
         <a class="easyui-linkbutton" href="javascript:dofenp()">分配</a>
     </div>
+
 </div>
 <script type="text/javascript">
     function init() {
@@ -54,7 +68,7 @@
                     text: "分配资源权限",
                     iconCls: "icon-search",
                     handler: function () {
-                       // fenp();
+                        fenResource();
                     }
                 }
             ]
@@ -110,39 +124,77 @@
             }
         });
     }*/
-    //分配角色
-   /* function fenp() {
-        var user = $("#roles").datagrid("getSelected");
-        //判断是否选择好账号
-        if (user) {
-            $("roles_window").window("open");
-        } else {
-            $.message.alert("系统提示", "请选择需要分配角色的账号");
+
+
+    //分配资源
+   function fenResource() {
+        var role= $("#mytable").datagrid("getSelected");
+       // alert(role)
+
+        //判断是否选择好账号,并显示原来的资源
+        if (role) {
+            $.get("findResourceByRole.do",{roleId:role.id},function (d) {
+                alert("角色资源"+d);
+                var datas= JSON.parse(d);
+                for(var i=0;i<datas.length;i++){
+                    var node= $("#resource_tree").treegrid("find",datas[i].id);
+                    //alert(node);
+                    var node1 = JSON.stringify(node);
+                   // alert(node1)
+                    //var childrenDatas=node.children;
+                   // var data= JSON.parse(childrenDatas);
+                   //alert(childrenDatas);
+                    //for(var j=0;j<childrenDatas.length;j++){
+                   // alert(node1.checkState);
+                   // alert(node.checkState=true);
+                   if(node.checkState='uncheck'){
+                        node.checkState='check'
+                    }
+                   // $('#resource_tree').treegrid('expandTo',node.target).treegrid('select',node.target);
+                    $("#resource_tree").treegrid("select",node.id);
+                    //}
+                }
+            })
+            $("#resource_window").window("open");
+        }else {
+            $.messager.alert("系统提示", "请选择需要分配资源的账号");
         }
     }
     function dofenp() {
-        //获取选择的用户
-        var user = $("#roles").datagrid("getSelected");
+        //获取选择的角色
+        var role = $("#mytable").datagrid("getSelected");
         //获取用户选择的角色
-        var data = $("#roles_tree").tree("getChecked");
-        var as = [user.id];
-        for (i = 0; i < data.length; i++) {
+        var data = $("#resource_tree").treegrid("getChecked");
+        var node1 = JSON.stringify(data);
+        alert(node1);
+        var as = [role.id];
+        for (var i = 0; i < data.length; i++) {
             as[i + 1] = data[i].id;
         }
         //将数组转化为json字符串
-        var json = JSON.stringify(as);
+        var arrjson = JSON.stringify(as);
+        alert(arrjson)
         $.ajax({
-            url: "fenp.do",
+            url: "fenpResource.do",
             method: "post",
-            data: json,
+            data: arrjson,
             contentType: "application/json",
             //服务端返回的数据
             success: function (d) {
-                //刷新页面重新加载用户的角色
-                window.location.reload();
+
                 alert(d);
+                if(d==1){
+                    $.messager.alert("提示","恭喜您分配资源权限成功");
+                   // $("#resource_window").window("closed");
+                    //刷新页面重新加载用户的角色
+                    window.location.reload();
+                    load2(1,5)
+                }else{
+                    $.messager.alert("提示","对不起本次操作失败");
+                    load2(1,5)
+                }
             }
         });
-    }*/
+    }
 </script>
 
