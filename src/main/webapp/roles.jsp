@@ -41,7 +41,7 @@
             columns: [[
                 {
                     field: "id",
-                    title: "id",
+                    title: "Id",
                     checkbox: true
                 },
                 {
