@@ -22,12 +22,12 @@ public class UsersController {
     @Resource
     private UsersServices us;
     //查询单个用户
-    @RequestMapping("dologin.do")
-    @ResponseBody
-    public String doLogin(Users users){
-        ud.login(users);
-        return "success";
-    }
+//    @RequestMapping("dologin.do")
+//    @ResponseBody
+//    public String doLogin(Users users){
+//        ud.login(users);
+//        return "success";
+//    }
     //查询所有用户
     @RequestMapping("findAllUsers.do")
     @ResponseBody
