@@ -1,43 +1,45 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: huangguan
-  Date: 2017/7/20 0020
-  Time: 下午 12:54
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="easyui-panel" title="搜索" style="width:100%;height:100px">
+
+<%@ page contentType="text/html;charset=UTF-8" import="java.util.*" language="java" %>
+
+<div class="easyui-panel" title="搜索" style="width:100%;height:80px">
     <input class="easyui-searchbox" data-options="menu:'#choice',prompt:'输入搜索关键字',searcher:doSearch"/>
     <div id="choice">
         <div data-options="name:'users_account'">账号</div>
         <div data-options="name:'users_pwd'">密码</div>
     </div>
 </div>
-<div id="user_main" class="easyui_pagination"></div>
+
+<div id="user_main"></div>
+
 <%--添加用户--%>
-<div id="user_window" class="easyui_window" style="width: 400px;height: 400px" data-options="closed:true;modal:true">
-<div style="height: 100%;width: 100%;display: flex;justify-content: center;align-items:center;background-color: greenyellow;">
-    <form id="user_form" action="addUsers.do" method="post">
-        <input type="hidden" name="id">
-       账&nbsp;&nbsp;号&nbsp;：&nbsp; <input type="text" name="users_account"><br/>
-        密&nbsp;&nbsp;码&nbsp;：&nbsp;<input type="text" name="users_pwd"><br/>
-        <br/>
-        <div>
-           <a class="easyui-linkbutton" href="javascript:saveUsers()">保存</a>
-       </div>
-    </form>
-</div>
-</div>
-<%--修改用户--%>
-<div id="users_window" class="easyui_window" style="width: 400px;height: 400px" data-options="closed:true;modal:true">
-    <div style="height: 100%;width: 100%;display: flex;justify-content: center;align-items:center;background-color: greenyellow;">
-        <form id="users_form" action="updateUsers.do" method="post">
-            <input type="hidden" name="id">
-            账&nbsp;&nbsp;号&nbsp;：&nbsp; <input type="text" name="users_account"><br/>
-            密&nbsp;&nbsp;码&nbsp;：&nbsp;<input type="text" name="users_pwd"><br/>
+<div id="user_windows" class="easyui-window"
+     style="width:400px;height:500px;" data-options="closed:true,modal:true,title:'添加用户'">
+    <div style="width: 100%;height:100%;display:flex;justify-content:center;align-items:center;background-color: greenyellow;">
+        <form id="user_form" action="addUsers.do" method="post">
+            <input type="hidden" name="id"/>
+            &nbsp;&nbsp;用 &nbsp;户&nbsp;名:<input type="text" name="users_account" class="easyui-validatebox" data-options="required:true,validType:'users_account'"/><br/>
+            <br/>
+            &nbsp;&nbsp;密 &nbsp;&nbsp;&nbsp;&nbsp;码:<input id="users_pwd" type="password" name="users_pwd" class="easyui-validatebox" data-options="required:true"/><br/>
+            再次确认密码:<input id="rusers_pwd" type="password" name="rusers_pwd" class="easyui-validatebox" required="required" validType="equals['#users_pwd']"/><br/>
             <br/>
             <div>
-                <a class="easyui-linkbutton" href="javascript:saveUser()">保存</a>
+                <a  class="easyui-linkbutton" href="javascript:saveUser()">保存</a>
+            </div>
+        </form>
+    </div>
+</div>
+<%--修改用户--%>
+<div id="users_windows" class="easyui-window"
+     style="width:400px;height:500px" data-options="closed:true,modal:true,title:'修改用户'">
+    <div style="width: 100%;height:100%;display:flex;justify-content:center;align-items:center;background-color: greenyellow;">
+        <form id="users_form" action="updateUsers.do" method="post">
+            <input type="hidden" name="id"/>
+            用户名:<input type="text" name="users_account"/><br/>
+            <br/>
+            密 &nbsp;&nbsp;码:<input type="password" name="users_pwd"/><br/>
+            <br/>
+            <div>
+                <a  class="easyui-linkbutton" href="javascript:saveUsers()">保存</a>
             </div>
         </form>
     </div>
@@ -45,10 +47,8 @@
     <script type="text/javascript">
         function init() {
             $("#user_main").datagrid({
-                title:"用户管理",
+
                pagination:true,
-                rownumbers:true,
-                singleSelect:true,
                 columns:[[
                     {
                         field:"id",
@@ -60,32 +60,22 @@
                         field:"users_account",
                         title:"账号",
                         width:100
-                    },
-                    {
-                        field:"users_pwd",
-                        title:"密码",
-                        width:100
-                    },
-                    {
-                        field:"users_status",
-                        title:"登录状态",
-                        width:100
                     }
                 ]],
                 toolbar:[
                     {
                         text:"添加",
-                        icon_Cls:"icon_add",
+                        iconCls:"icon_add",
                         handler:function () {addUsers();}
                     },
                     {
                         text:"删除",
-                        icon_Cls:"icon_remove",
-                        handler:function () {removeUsers();}
+                        iconCls:"icon_remove",
+                        handler:function () {removeUsersByStatus();}
                     },
                     {
                         text:"修改",
-                        icon_Cls:"icon_edit",
+                        iconCls:"icon_edit",
                         handler:function () {updateUsers();}
                     }
                 ]
@@ -93,23 +83,31 @@
             });
             load1(1,5);
         }
-        function load1(p,size) {
-            $.getJSON("findAllUsers.do",{page:p,pageSize:size},function (d) {
+        //数据加载
+        function load1(page,pagesize) {
+            $.getJSON("findAllUsers.do",{
+                page:page,
+                pagesize:pagesize
+            },function (d) {
+                var json= JSON.stringify(d.users);
+                var datas=d.users;
                //填充数据
-                $("#user_main").datagrid("loadData",d.users);
+                $("#user_main").datagrid("loadData",datas);
                 //获取分页组件
                var pager= $("#user_main").datagrid("getPager");
                pager.pagination({
                    total:d.total,
-                   pageNumer:p,
+                   pageSize:pagesize,
                    pageList:[5,10,20],
+                   pageNumber:page,
+                  onSelectPage:function(page,pagesize){
+
+                       load1(page,pagesize);
+                   },
                    beforePageText:'第',
                    afterPageText:'页  共{pages}页',
-                   displayMsg:'当前显示 {from} - {to} 条记录   共 {total} 条记录',
-                   onSelectPage:function(page,size){
+                   displayMsg:'共 {total} 条记录',
 
-                       load1(page,size);
-                   }
                });
             });
         }
@@ -119,26 +117,28 @@
             $("#user_form").form("load",{
                 id:0
             });
-            $("#user_window").window("open");
+            $("#user_windows").window("open");
         }
-        function saveUsers() {
+        function saveUser() {
             $("#user_form").form("submit",{
                 success:function (xhr) {
-                    if(xhr>0){
+                    alert(xhr);
+                    if(xhr==0){
                         $.messager.alert("系统提示","成功添加用户");
                         //再添加完新用户后重新加载数据
-                        load1(1);
+                        load1(1,5);
                         //当添加完用户后，关闭该界面（窗口）
                         $("#user_windows").window("close");
                     }
                     if (xhr<0){
                         $.messager.alert("系统提示","添加用户失败");
+
                     }
                 }
             });
         }
 //        删除用户的操作，一次可以删除多条
-        function removeUsers() {
+        function removeUsersByStatus() {
             //获取选择删除的数据
            var data= $("#user_main").datagrid("getSelections");
            //把得到的数据id放入数组
@@ -149,14 +149,14 @@
            //把ids数组封装成json数据
             var romveUserId= JSON.stringify(ids);
             $.ajax({
-                url:"removeUsers.do",
+                url:"removeUsersByStatus.do",
                 method:"post",
                 data:romveUserId,
                 contentType:"application/json",
                 success:function(d){
                     $.messager.alert("系统提示",d);
                     //删除完用户后，重新加载页面
-                    load1(1);
+                    load1(1,5);
                 }
             });
         }
@@ -165,23 +165,25 @@
             var dataUsers=$("#user_main").datagrid("getSelected");
             $("#users_form").form("load",{
                 id:dataUsers.id,
-                user_account:dataUsers.user_account,
-                user_pwd:dataUsers.user_pwd,
+                users_account:dataUsers.users_account,
+                users_pwd:dataUsers.users_pwd,
 
             });
-            $("#users_window").window("open");
+            $("#users_windows").window("open");
         }
-        function saveUser() {
+        function saveUsers() {
+            alert("修改1");
             $("#users_form").form("submit",{
                 success:function (xhr) {
-                    if(xhr>0){
+                    alert("修改2"+xhr);
+                    if(xhr==1){
                         $.messager.alert("系统提示","修改用户成功");
                         //再修改完用户数据后重新加载数据
-                        load1(1);
+                        load1(1,5);
                         //当添加完用户后，关闭该界面（窗口）
                         $("#users_windows").window("close");
                     }
-                    if (xhr<0){
+                    if (xhr==-1){
                         $.messager.alert("系统提示","用户修改失败");
                     }
                 }
@@ -199,6 +201,6 @@
 
             });
         }
-      init();
+      $(init);
     </script>
 

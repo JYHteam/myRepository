@@ -30,9 +30,9 @@ public class UsersController {
     //查询所有用户
     @RequestMapping("findAllUsers.do")
     @ResponseBody
-    public Map<String,Object> findAllUsers(int page,int size){
-        System.out.println(page+"......"+size);
-        return us.findAllUsers(page,size);
+    public Map<String,Object> findAllUsers(int page,int pagesize){
+        System.out.println(page+"......"+pagesize);
+        return us.findAllUsers(page,pagesize);
     }
     //添加新用户
     @RequestMapping("addUsers.do")
@@ -41,16 +41,17 @@ public class UsersController {
        return us.addUsers(users);
     }
     //删除用户信息
-    @RequestMapping("removeUsers.do")
+    @RequestMapping("removeUsersByStatus.do")
     @ResponseBody
-    public String removeUsers(@RequestBody ArrayList<Integer> data){
-
-        return  us.removeUsers(data);
+    public String removeUsersByStatus(@RequestBody ArrayList<Integer> data){
+        System.out.println("删除data"+data);
+        return  us.removeUsersByStatus(data);
     }
     //修改用户信息
     @RequestMapping("updateUsers.do")
     @ResponseBody
     public int updateUsers(Users users){
+        System.out.println("修改users"+users);
         return us.updateUsers(users);
     }
     //搜索用户
@@ -59,4 +60,5 @@ public class UsersController {
     public List<Users> searchUsersBylike(String type,String key){
         return us.searchUsersBylike(type,key);
     }
+
 }

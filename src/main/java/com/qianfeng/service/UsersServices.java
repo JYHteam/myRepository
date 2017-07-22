@@ -20,12 +20,12 @@ public class UsersServices {
 
     }
 
-    public Map<String,Object> findAllUsers(int page,int size){
+    public Map<String,Object> findAllUsers(int page,int pagesize){
        try {
            Map<String, Object> map = new HashMap<String, Object>();
-           int start = (page-1)*size;
+           int start = (page-1)*pagesize;
            System.out.println(start);
-           List<Users> allusers = ud.findAllUsers(start,size);
+           List<Users> allusers = ud.findAllUsers(start,pagesize);
            System.out.println("........"+allusers);
            int total = ud.findUsersByCount();
            System.out.println("////////total"+total);
@@ -39,36 +39,38 @@ public class UsersServices {
     }
     //添加
     public int addUsers(Users users ){
+        System.out.println("添加"+users);
       try {
           ud.addUsers(users);
           return 0;
       }catch (Exception e){
           e.printStackTrace();
-          return -1;
       }
-
+        return -1;
 
     }
     //删除
-    public String removeUsers( ArrayList<Integer> data){
+    public String removeUsersByStatus( ArrayList<Integer> data){
        try {
-           ud.removeUsers(data);
+           ud.removeUsersByStatus(data);
            return "删除用户信息成功";
        }catch (Exception e){
            e.printStackTrace();
-           return "删除用户信息失败";
+
        }
+        return "删除用户信息失败";
 
     }
     //修改
     public int updateUsers(Users users){
+        System.out.println("修改"+users);
         try{
             ud.updateUsers(users);
-            return 0;
+            return 1;
         }catch (Exception e){
             e.printStackTrace();
-            return -1;
         }
+        return -1;
     }
     //搜索
     public List<Users> searchUsersBylike(String type,String key){

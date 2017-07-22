@@ -1,6 +1,7 @@
 package com.qianfeng.dao;
 
 import com.qianfeng.bean.Roles;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,7 +13,9 @@ import java.util.Map;
 @Repository
 public interface RolesDao {
     //查询显示所有的角色
-    List<Roles> findAllRoles();
+    List<Roles> findAllRoles(@Param(value="start") int start,@Param(value="pagesize") int pagesize);
+
+    int countRoles();
 
     //通过用户查询角色
     List<Roles> findRolesByUser(int user_id);
