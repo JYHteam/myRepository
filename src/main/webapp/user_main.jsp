@@ -89,6 +89,7 @@
                 page:page,
                 pagesize:pagesize
             },function (d) {
+                //解析json字符串
                 var json= JSON.stringify(d.users);
                 var datas=d.users;
                //填充数据
