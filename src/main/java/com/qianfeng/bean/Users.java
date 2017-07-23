@@ -50,4 +50,9 @@ public class Users implements Serializable {
     public void setUsers_status(int users_status) {
         this.users_status = users_status;
     }
+
+    @Override
+    public String toString() {
+        return getUsers_account()+"--"+getUsers_pwd();
+    }
 }

@@ -17,9 +17,9 @@
     <div style="width: 100%;height:100%;display:flex;justify-content:center;align-items:center;background-color: greenyellow;">
         <form id="user_form" action="addUsers.do" method="post">
             <input type="hidden" name="id"/>
-            &nbsp;&nbsp;用 &nbsp;户&nbsp;名:<input type="text" name="users_account" class="easyui-validatebox" data-options="required:true,validType:'users_account'"/><br/>
+            &nbsp;&nbsp; &nbsp;&nbsp;用 &nbsp;户&nbsp;名:<input id="users_account" type="text" name="users_account" class="easyui-validatebox" data-options="required:true,validType:'users_account'"/><br/>
             <br/>
-            &nbsp;&nbsp;密 &nbsp;&nbsp;&nbsp;&nbsp;码:<input id="users_pwd" type="password" name="users_pwd" class="easyui-validatebox" data-options="required:true"/><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;密 &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;码:<input id="users_pwd" type="password" name="users_pwd" class="easyui-validatebox" data-options="required:true"/><br/>
             再次确认密码:<input id="rusers_pwd" type="password" name="rusers_pwd" class="easyui-validatebox" required="required" validType="equals['#users_pwd']"/><br/>
             <br/>
             <div>
@@ -121,19 +121,32 @@
             $("#user_windows").window("open");
         }
         function saveUser() {
+            $("#users_account").validatebox({
+                required: true,
+                validType: 'text'
+            }),
+                $.extend($.fn.validatebox.defaults.rules, {
+                    equals: {
+                        validator: function(value,param){
+                            return value == $(param[0]).val();
+                        },
+                        message: 'Field do not match.'
+                    }
+                });
             $("#user_form").form("submit",{
                 success:function (xhr) {
-                    alert(xhr);
-                    if(xhr==0){
+                    if(xhr==1){
                         $.messager.alert("系统提示","成功添加用户");
                         //再添加完新用户后重新加载数据
                         load1(1,5);
                         //当添加完用户后，关闭该界面（窗口）
                         $("#user_windows").window("close");
                     }
-                    if (xhr<0){
+                    if(xhr==0){
+                        $.messager.alert("系统提示","用户已存在，请重新添加");
+                    }
+                    if (xhr==-1){
                         $.messager.alert("系统提示","添加用户失败");
-
                     }
                 }
             });
