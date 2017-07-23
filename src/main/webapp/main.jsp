@@ -40,6 +40,19 @@
                 }
             })
         }
+        function outLogin() {
+            $.messager.confirm('提示', '您确定要退出系统吗?', function(r){
+                if (r){
+                    $.get("backOutLogin.do",{},function (d) {
+                        //alert(d);
+                        if(d==1){
+                            window.location.href='login.jsp'
+                        }
+                    })
+                }
+            });
+
+        }
         $(init);
     </script>
 </head>
@@ -58,8 +71,7 @@
                             <!-- 二级菜单 -->
                             <div><a href="">个人信息</a></div>
                             <div><a href="">切换帐号</a></div>
-                            <div><a href="">切换帐号</a></div>
-                            <div><a href="">退出</a></div>
+                            <div><a href="javascript:outLogin()">退出</a></div>
                         </div>
                     </div>
                 </li>
@@ -70,7 +82,7 @@
 
         <!--导航栏-->
         <div data-options="region:'west',split:true" title="导航栏" style="width:220px;">
-            <div id="menu_tree" class="easyui-treegrid" data-options="url: 'findAllResources.do',
+            <div id="menu_tree" class="easyui-treegrid" data-options="url:'findResourceByRole.do',
 				method: 'get',
 				rownumbers: true,
 				showFooter: true,
@@ -97,4 +109,7 @@
         </div>
     </div>
 </body>
+<script>
+
+</script>
 </html>

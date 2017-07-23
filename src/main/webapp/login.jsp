@@ -1,8 +1,12 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<%--
+  Created by IntelliJ IDEA.
+  User: Administrator
+  Date: 2017/7/23 0023
+  Time: 16:56
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -30,14 +34,16 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/animate.css">
     <link rel="stylesheet" href="css/style.css">
-
-
+    <link rel="stylesheet" type="text/css" href="css/icon.css">
+    <link rel="stylesheet" type="text/css" href="css/easyui.css">
     <!-- Modernizr JS -->
     <script src="js/modernizr-2.6.2.min.js"></script>
     <!-- FOR IE9 below -->
     <!--[if lt IE 9]>
     <script src="js/respond.min.js"></script>
+
     <![endif]-->
+
 
 </head>
 <body class="style-2">
@@ -45,25 +51,26 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12 text-center">
-            <ul class="menu">
-                <li><h2 style="color:#33CCCC">冠冠易贸后台登录界面</h2></li>
-                <!--<li class="active"><a href="index2.html">Style 2</a></li>
-                <li><a href="index3.html">Style 3</a></li>-->
-            </ul>
+            <div style=" width: 100%; height:30px;  display:flex; justify-content:center;align-content:center;" >
+
+                <h2 style="color:#33CCCC">冠冠易贸后台登录界面</h2>
+
+            </div>
+
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
             <!-- Start Sign In Form -->
-            <form action="#" class="fh5co-form animate-box" data-animate-effect="fadeInLeft">
+            <form  class="fh5co-form animate-box" data-animate-effect="fadeInLeft">
                 <h2>Sign In</h2>
                 <div class="form-group">
                     <label  class="sr-only">Username</label>
-                    <input type="text" class="form-control" name="account" id="account" placeholder="Username" autocomplete="off">
+                    <input type="text" class="form-control" name="users_account" id="account" placeholder="Username" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label  class="sr-only">Password</label>
-                    <input type="password" class="form-control" name="pwd" id="pwd" placeholder="Password" autocomplete="off">
+                    <input type="password" class="form-control" name="users_pwd" id="pwd" placeholder="Password" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="remember"><input type="checkbox" id="remember"> 记着我</label>
@@ -72,8 +79,8 @@
                     <p>Not registered? <a href="sign-up2.html">Sign Up</a> | <a href="forgot2.html">忘记密码?</a></p>
                 </div>-->
                 <div class="form-group">
-                    <input type="submit" value="登录" class="btn btn-primary">
-                    <a href="main.jsp">进入后台</a>
+                    <input  id="login" value="登录" class="btn btn-primary">
+                    <!--<a href="main.jsp">进入后台</a>-->
 
                 </div>
             </form>
@@ -96,6 +103,42 @@
 <script src="js/jquery.waypoints.min.js"></script>
 <!-- Main JS -->
 <script src="js/main.js"></script>
+<script src="js/easyui.js"></script>
+<script>
+    $(document).ready(function(){
+        $("#login").click(function () {
+            var users_account = $("#account").val();
+            var users_pwd=$("#pwd").val();
+            alert(users_account);
+            $.ajax({
+                type:'post',
+                url:"backLogin.do",
+                data:{
+                    users_account:users_account,
+                    users_pwd:users_pwd
+                },
+                success:function (d) {
+                    var d1= JSON.stringify(d)
+                    alert(d1);
+                    if(d==1){
+                        $.messager.alert("提示","恭喜您登录成功");
+                        window.location.href="main.jsp"
+                    }else if(d==0){
+                        $.messager.alert("提示","对不起该账号没有分配角色，请联系管理员先分配角色后在登录");
+                    }
+                    else {
+                        $.messager.alert("提示","对不起用户名或者密码不对，请从登录")
+                    }
+                },
+                error:function (d) {
+                    alert(d);
+                }
+
+            })
+        })
+
+    })
+</script>
 
 </body>
 </html>

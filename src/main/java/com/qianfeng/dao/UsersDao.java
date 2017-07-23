@@ -1,5 +1,6 @@
 package com.qianfeng.dao;
 
+import com.qianfeng.bean.Roles;
 import com.qianfeng.bean.Users;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,7 @@ public interface UsersDao {
     //查询数据总数
     int findUsersByCount();
     //只查询单个用户
-    void login(Users users);
+    Users backLogin(@Param(value="users_account") String users_account, @Param(value="users_pwd") String users_pwd);
     //查询需求的用户,用于模糊查询
     void findUsers(String str);
     //查询所有用户，用于管理员操作
@@ -26,4 +27,6 @@ public interface UsersDao {
     void updateUsers(Users users);
     //搜索
     List<Users> searchUsersBylike(Map<String,String>data);
+    //通过用户查询角色
+    Roles findRolesByUser(int user_id);
 }

@@ -2,10 +2,12 @@ package com.qianfeng.service;
 
 import com.qianfeng.bean.Users;
 import com.qianfeng.dao.UsersDao;
+import com.qianfeng.utils.MD5Utils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,9 +18,9 @@ public class UsersServices {
     @Resource
     private UsersDao ud;
     //多单个用户查询服务
-    public void login(){
+  /*  public String login(Users users, HttpSession session){
 
-    }
+    }*/
 
     public Map<String,Object> findAllUsers(int page,int pagesize){
        try {

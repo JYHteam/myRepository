@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
+import javax.management.relation.Role;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,14 +34,16 @@ public class ResourcesService {
     }
 
     /**
-     * 通过登录用户查询资源
-     * @param id 登录的用户ID
+     * 通过登录用户角色查询资源
+     * @param role_id 登录的用户的角色ID
      * @return
      */
-    public List<Resources> findResourcesByRole(int id){
-        List<Resources> resourcesByRole = rd.findResourcesByRole(id);
+    public Map<String,Object>  findResourcesByRole(int role_id){
+        Map<String,Object> map=new HashMap();
+        List<Resources> resourcesByRole = rd.findResourcesByRole(role_id);
+        map.put("rows",resourcesByRole);
+        return map;
 
-        return resourcesByRole;
     }
 
     /**
