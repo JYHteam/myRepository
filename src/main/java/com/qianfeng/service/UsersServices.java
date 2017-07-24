@@ -79,7 +79,7 @@ public class UsersServices {
     //修改
     public int updateUsers(Users users){
         System.out.println("修改"+users);
-        Map<String,String> map=new HashMap<String, String>();
+        Map<String,Object> map=new HashMap<String, Object>();
         try{
             String users_pwd = MD5Utils.md5(users.getUsers_pwd());
             map.put("users_account",users.getUsers_account());

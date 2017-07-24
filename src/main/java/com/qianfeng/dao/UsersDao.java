@@ -25,7 +25,7 @@ public interface UsersDao {
     //删除用户
     void removeUsersByStatus(ArrayList<Integer> data);
     //修改用户信息
-    void updateUsers(Map<String,String>map);
+    void updateUsers(Map<String,Object>map);
     //搜索
     List<Users> searchUsersBylike(Map<String,String>data);
 }
