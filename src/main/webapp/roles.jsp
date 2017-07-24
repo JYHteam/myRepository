@@ -174,9 +174,6 @@
                 alert(d);
                 if(d==1){
                     $.messager.alert("提示","恭喜您分配资源权限成功");
-                   // $("#resource_window").window("closed");
-                    //刷新页面重新加载用户的角色
-                    //window.location.reload();
                     load2(1,5)
                     $("#resource_window").window("close");
                 }else{
