@@ -6,8 +6,21 @@
     <select id="findUsersByCount" resultType="java.lang.Integer">
         SELECT COUNT(id) FROM users where users_status=1
     </select>
-    <select id="login" resultType="com.qianfeng.bean.Users">
-        SELECT * FROM users WHERE users_account=#{users_account} AND users_pwd=#{users_pwd} GROUP BY users_status=1
+    <select id="backLogin" resultType="com.qianfeng.bean.Users">
+        SELECT * FROM users WHERE users_account=#{users_account} AND users_pwd=#{users_pwd} AND users_status=1
+    </select>
+    <resultMap type="com.qianfeng.bean.Roles" id="m2">
+        <!-- 保证表与实体类一一对应 -->
+        <result property="id" column="id"/>
+        <result property="roles_name" column="roles_name"/>
+    </resultMap>
+    <!--根据用户名查询角色-->
+    <select id="findRolesByUser" resultMap="m2">
+        SELECT id,roles_name
+        FROM
+        roles_users ru
+        LEFT join roles  on ru.role_id=id
+        where ru.user_id=#{user_id}
     </select>
     <select id="findUsers"  resultType="com.qianfeng.bean.Users">
         SELECT * FROM users u

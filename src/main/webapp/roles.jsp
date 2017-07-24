@@ -16,11 +16,11 @@
 				method: 'get',
 				rownumbers: true,
 				showFooter: true,
-				checkbox:true,
 				idField: 'id',
 				singleSelect:false,
                 treeField: 'name',
                 columns: [[
+                    {field: 'id',title:'id',checkbox:true,width:100},
                     {field: 'name', title: '资源目录', width: 160},
                     {field: 'path', title: '资源路径', width: 120}
                 ]]
@@ -28,7 +28,7 @@
 
 
     </div>
-    <div>
+    <div style="display: flex; justify-content:center">
         <a class="easyui-linkbutton" href="javascript:dofenp()">分配</a>
     </div>
 
@@ -129,8 +129,6 @@
     //分配资源
    function fenResource() {
         var role= $("#mytable").datagrid("getSelected");
-       // alert(role)
-
         //判断是否选择好账号,并显示原来的资源
         if (role) {
             $.get("findResourceByRole.do",{roleId:role.id},function (d) {
@@ -140,19 +138,10 @@
                     var node= $("#resource_tree").treegrid("find",datas[i].id);
                     //alert(node);
                     var node1 = JSON.stringify(node);
-                   // alert(node1)
-                    //var childrenDatas=node.children;
-                   // var data= JSON.parse(childrenDatas);
-                   //alert(childrenDatas);
-                    //for(var j=0;j<childrenDatas.length;j++){
-                   // alert(node1.checkState);
-                   // alert(node.checkState=true);
                    if(node.checkState='uncheck'){
                         node.checkState='check'
                     }
-                   // $('#resource_tree').treegrid('expandTo',node.target).treegrid('select',node.target);
                     $("#resource_tree").treegrid("select",node.id);
-                    //}
                 }
             })
             $("#resource_window").window("open");
@@ -185,13 +174,10 @@
                 alert(d);
                 if(d==1){
                     $.messager.alert("提示","恭喜您分配资源权限成功");
-                   // $("#resource_window").window("closed");
-                    //刷新页面重新加载用户的角色
-                    window.location.reload();
                     load2(1,5)
+                    $("#resource_window").window("close");
                 }else{
                     $.messager.alert("提示","对不起本次操作失败");
-                    load2(1,5)
                 }
             }
         });

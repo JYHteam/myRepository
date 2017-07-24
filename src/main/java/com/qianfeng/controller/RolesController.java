@@ -32,12 +32,12 @@ public class RolesController {
        return rs.findAllRoles(page,pagesize);
     }
 
-    //通过用户查询对应角色
+    /*//通过用户查询对应角色
     @RequestMapping("findRolesByUser")
-    public List<Roles> findRolesByUser(HttpSession session) {
+    public Roles findRolesByUser(HttpSession session) {
         Users user = (Users) session.getAttribute("user");
         return rd.findRolesByUser(user.getId());
-    }
+    }*/
 
    /* //通过角色查询对应的所有用户
     @RequestMapping("findUsersByRoles")

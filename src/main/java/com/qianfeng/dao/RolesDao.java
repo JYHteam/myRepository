@@ -17,8 +17,7 @@ public interface RolesDao {
 
     int countRoles();
 
-    //通过用户查询角色
-    List<Roles> findRolesByUser(int user_id);
+
 
     //通过查询角色显示对应的用户
     List<Roles> findUsersByRoles(int roles_id);
