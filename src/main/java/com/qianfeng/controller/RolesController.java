@@ -24,38 +24,40 @@ public class RolesController {
     private RolesDao rd;
     @Resource
     private RolesService rs;
+
     //显示所有的角色
     @RequestMapping("findAllRoles.do")
     @ResponseBody
-    public Map<String,Object> findAllRoles(int page, int pagesize){
+    public Map<String, Object> findAllRoles(int page, int pagesize) {
 
-       return rs.findAllRoles(page,pagesize);
+        return rs.findAllRoles(page, pagesize);
     }
 
-    /*//通过用户查询对应角色
-    @RequestMapping("findRolesByUser")
-    public Roles findRolesByUser(HttpSession session) {
-        Users user = (Users) session.getAttribute("user");
-        return rd.findRolesByUser(user.getId());
-    }*/
-
-   /* //通过角色查询对应的所有用户
-    @RequestMapping("findUsersByRoles")
-    public List<Users> findUsersByRoles(HttpSession session) {
-        Roles role = (Roles) session.getAttribute("role");
-        return rd.findUsersByRoles(role.getId());
-    }*/
+    //添加角色
+    @RequestMapping("addRoles.do")
+    @ResponseBody
+    public int addRoles(Roles roles) {
+        return rs.addRoles(roles);
+    }
 
     //删除角色
-    @RequestMapping("removeOldRoles")
-    public void deleteOldRoles(int id) {
-        rd.deleteOldRoles(id);
+    @RequestMapping("deleteRoles.do")
+    @ResponseBody
+    public String deleteRoles(@RequestBody ArrayList<Integer> data) {
+        return rs.deleteRoles(data);
     }
 
-    //分配角色(增+改)
-    @RequestMapping("fenp")
-    public String fenp(@RequestBody ArrayList<Integer> data) {
-        return "rd.fenp(data)";
+    //修改角色
+    @RequestMapping("updaterole.do")
+    @ResponseBody
+    public int updaterole(Roles roles) {
+        return rs.updaterole(roles);
+    }
+    //搜索
+    @RequestMapping("search.do")
+    @ResponseBody
+    public List<Roles> searchRolesBylike(String type,String key){
+        return rs.searchRolesBylike(type,key);
     }
 
 }

@@ -4,6 +4,7 @@ import com.qianfeng.bean.Roles;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,12 +20,16 @@ public interface RolesDao {
 
 
 
-    //通过查询角色显示对应的用户
-    List<Roles> findUsersByRoles(int roles_id);
+    //添加角色
+    void addRoles(Map<String,Object> map);
+    //添加用户时验证数据库是否存在
+    Map<String,String>  isfindroles(Roles roles);
 
     //删除
-    void deleteOldRoles(int user_id);
+    void deleteRoles(ArrayList<Integer> data);
 
-    // 分配
-    void fenp(Map<String, Object> data);
+    //修改
+   void  updaterole(Roles roles);
+    //模糊搜索
+    List<Roles> searchRolesBylike(Map<String,String>data);
 }

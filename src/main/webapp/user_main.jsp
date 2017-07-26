@@ -155,6 +155,7 @@
         function removeUsersByStatus() {
             //获取选择删除的数据
            var data= $("#user_main").datagrid("getSelections");
+           alert(data);
            //把得到的数据id放入数组
            var ids=[];
            for(i=0;i<data.length;i++){
@@ -162,6 +163,7 @@
            }
            //把ids数组封装成json数据
             var romveUserId= JSON.stringify(ids);
+            alert(romveUserId);
             $.ajax({
                 url:"removeUsersByStatus.do",
                 method:"post",

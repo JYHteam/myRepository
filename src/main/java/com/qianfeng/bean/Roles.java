@@ -11,10 +11,11 @@ public class Roles {
     public Roles() {
     }
 
-    public Roles(int id, String roles_name, String roles_status) {
+    public Roles(int id, String roles_name, String roles_status, Users users) {
         this.id = id;
         this.roles_name = roles_name;
         this.roles_status = roles_status;
+        this.users = users;
     }
 
     public int getId() {
