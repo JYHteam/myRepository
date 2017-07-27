@@ -8,7 +8,7 @@ public class Users implements Serializable {
     private String users_account;
     private String users_pwd;
     private int users_status;
-
+    private Roles roles;
     public Users() {
     }
 
@@ -17,6 +17,14 @@ public class Users implements Serializable {
         this.users_account = users_account;
         this.users_pwd = users_pwd;
         this.users_status = users_status;
+    }
+
+    public Roles getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Roles roles) {
+        this.roles = roles;
     }
 
     public int getId() {
