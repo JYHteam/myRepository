@@ -11,6 +11,7 @@ public class Books implements Serializable {
     private float book_price;
     private int book_count;
     private String book_typeid;
+
     private BookTypes bookTypes;
     private int cart_count;
     public Books() {

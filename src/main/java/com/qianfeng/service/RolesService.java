@@ -40,7 +40,7 @@ public class RolesService {
 
     //添加角色
     public int addRoles(Roles roles) {
-    //  int xhr= rd.countRoles();
+        //  int xhr= rd.countRoles();
         int xhr = -1;
         try {
             Map<String, String> map = rd.isfindroles(roles);
@@ -81,7 +81,7 @@ public class RolesService {
             rd.updaterole(roles);
 
         } catch (Exception e) {
-           msg=-1;
+            msg=-1;
         }
         return  msg;
     }

@@ -5,7 +5,7 @@
 
 <mapper namespace="com.qianfeng.dao.RolesDao">
 
-    <resultMap type="com.qianfeng.bean.Roles" id="m1">
+    <resultMap id="m1" type="com.qianfeng.bean.Roles">
         <!-- 保证表与实体类一一对应 -->
         <result property="id" column="id"/>
         <result property="roles_name" column="roles_name"/>
@@ -26,7 +26,10 @@
              left join users  u on u.id=ru.user_id
             limit #{start},#{pagesize}
         </select>-->
-
+    <!--用于下拉框的查询-->
+    <select id="boxfindAllRoles">
+        SELECT roles_name from Roles where roles_status=1
+    </select>
     <!--添加角色-->
     <insert id="addRoles">
         INSERT into Roles(roles_name,roles_status) VALUES (#{roles_name},#{roles_status})
@@ -45,16 +48,16 @@
     <!--修改-->
     <update id="updaterole" parameterType="com.qianfeng.bean.Roles">
         UPDATE roles set roles_name=#{roles_name},roles_status=#{roles_status} where id=#{id}
-      <!--  UPDATE roles r
-        <set>
-            <if test="roles_name != null">
-                r.roles_name=#{roles_name},
-            </if>
-            <if test="roles_status != null">
-                r.roles_status=#{roles_status}
-            </if>
-        </set>
-        where r.id = #{id}-->
+        <!--  UPDATE roles r
+          <set>
+              <if test="roles_name != null">
+                  r.roles_name=#{roles_name},
+              </if>
+              <if test="roles_status != null">
+                  r.roles_status=#{roles_status}
+              </if>
+          </set>
+          where r.id = #{id}-->
     </update>
     <!--模糊搜索-->
     <select id="searchRolesBylike" parameterType="map" resultType="com.qianfeng.bean.Roles">
