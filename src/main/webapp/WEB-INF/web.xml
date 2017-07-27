@@ -27,14 +27,6 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:applicationContext.xml</param-value>
   </context-param>
-    <context-param>
-        <param-name/>
-        <param-value/>
-    </context-param>
-    <context-param>
-        <param-name/>
-        <param-value/>
-    </context-param>
     <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
@@ -46,6 +38,9 @@
       <param-value>classpath:dispatcher-servlet.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
+    <multipart-config>
+      <max-file-size>10000000</max-file-size>
+    </multipart-config>
   </servlet>
   <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>
@@ -64,5 +59,4 @@
     <filter-name>shiro</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-
 </web-app>

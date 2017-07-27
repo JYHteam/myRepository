@@ -41,17 +41,16 @@ public class UsersController {
         //先使用MD5算法加密密码
         String users_pwd= MD5Utils.md5(users.getUsers_pwd());
         String users_account = users.getUsers_account();
-       // System.out.print(users_pwd+"--"+users_account);
-       // System.out.print("对象"+loginUser);
+        //超级管理员登录
         if(users_account.equals(admin_account)&&users_pwd.equals(admin_pwd)){
             session.setAttribute("admins",manager);
         }else{
-            //超级管理员登录
             Users loginUser = ud.backLogin(users_account,users_pwd);
             if(loginUser!=null) {
                 //普通用户的登录
                 Roles rolesByUser = ud.findRolesByUser(loginUser.getId());
                 if(rolesByUser!=null){
+                    System.out.print("登录的角色ID："+rolesByUser.getId());
                     session.setAttribute("role",rolesByUser);
                     session.setAttribute("user",loginUser);
                 }else{

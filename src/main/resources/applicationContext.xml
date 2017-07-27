@@ -3,6 +3,7 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans
@@ -12,8 +13,13 @@
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop.xsd
        http://www.springframework.org/schema/mvc
-       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+">
     <context:component-scan base-package="com.qianfeng"></context:component-scan>
+    <!--开启事务注解支持-->
+    <tx:annotation-driven transaction-manager="tm" proxy-target-class="true" />
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
@@ -40,8 +46,13 @@
     <property name="username" value="root"></property>
     <property name="password" value="123456"></property>
 </bean>
+    <!--事务管理器-->
+    <bean id="tm" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="ds"></property>
+    </bean>
     <bean class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="ds" ></property>
+        <property name="configLocation" value="classpath:mybatis.xml"></property>
         <property name="mapperLocations">
             <list>
                 <value>classpath:com/qianfeng/mapper/*.xml</value>
@@ -73,15 +84,14 @@
         <property name="unauthorizedUrl" value="/toNoqx.do"></property>
         <property name="filterChainDefinitions">
             <value>
-
                 /**=anon
             </value>
         </property>
     </bean>
     <!--shiro生命周期处理器-->
     <!-- 开启Shiro注解的Spring配置方式的beans。在lifecycleBeanPostProcessor之后运行 -->
-    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
-          depends-on="lifecycleBeanPostProcessor" />
+    <!--<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"-->
+          <!--depends-on="lifecycleBeanPostProcessor" />-->
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="defaultWebSecurityManager" />
     </bean>
@@ -100,5 +110,9 @@
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.qianfeng.dao"></property>
+    </bean>
+    <!--文件上传-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+       <property name="defaultEncoding" value="UTF-8"></property>
     </bean>
 </beans>

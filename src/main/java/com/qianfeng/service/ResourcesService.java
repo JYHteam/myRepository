@@ -23,7 +23,7 @@ public class ResourcesService {
     @Resource
     private RolesDao rolesDao;
     /**
-     * 查询所有资源，显示树
+     * 查询所有资源，显示权限树
      * @return 返回的树形式的map集合
      */
     public Map<String,Object> findAllResources(){
@@ -32,7 +32,16 @@ public class ResourcesService {
         map.put("rows",resources);
         return map;
     }
-
+    /**
+     * 查询所有资源，显示树
+     * @return 返回的树形式的map集合
+     */
+    public Map<String,Object> findAllResources1(){
+        Map<String,Object> map=new HashMap();
+        List<Resources> resources=  rd.findAllResources1();
+        map.put("rows",resources);
+        return map;
+    }
     /**
      * 通过登录用户角色查询资源
      * @param role_id 登录的用户的角色ID
@@ -43,7 +52,6 @@ public class ResourcesService {
         List<Resources> resourcesByRole = rd.findResourcesByRole(role_id);
         map.put("rows",resourcesByRole);
         return map;
-
     }
 
     /**

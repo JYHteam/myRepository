@@ -46,10 +46,11 @@ public class ResourcesController {
         Object admins = session.getAttribute("admins");
         //超管登录显示所有资源
         if(admins!=null){
-            return rs.findAllResources();
+            return rs.findAllResources1();
         }else {
             //普通用户登录查询资源权限
             Roles role = (Roles) session.getAttribute("role");
+            System.out.print("传过来角色"+role.getId());
             return rs.findResourcesByRole(role.getId());
         }
     }

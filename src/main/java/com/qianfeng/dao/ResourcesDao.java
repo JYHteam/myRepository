@@ -11,6 +11,7 @@ import java.util.Map;
 public interface ResourcesDao {
 
     List<Resources> findAllResources();
+    List<Resources> findAllResources1();
     void deleteResourcesByRole(int role_id);
     List<Resources> findResourcesByRole(int role_id);
     void fenpResource(Map<String,Object> map);

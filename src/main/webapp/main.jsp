@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/easyui.js"></script>
+    <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
     <script>
         function init() {
            /* $("#menu_tree").treegrid({
@@ -60,12 +61,12 @@
     <div class="easyui-layout" style="width: 100%;height:800px">
         <!--头部-->
         <div class="container" data-options="region:'north'" style="height:115px">
-            <div class="logo"><a href="./index.html">X-ADMIN V1.1</a></div>
+            <div class="logo"><a href="./index.html">冠冠易贸商城后台1.0V</a></div>
             <div class="open-nav"><i class="iconfont">&#xe699;</i></div>
             <ul class="layui-nav right" >
                 <li class="layui-nav-item">
                     <div >
-                        <span class="easyui-menubutton glyphicon glyphicon-user" data-options="menu:'#mm1'">admin</span>
+                        <span class="easyui-menubutton glyphicon glyphicon-user" data-options="menu:'#mm1'">欢迎您：<span style="color:red;font-size:20px">${sessionScope.role.roles_name}</span></span>
 
                         <div id="mm1" style="width: 100px">
                             <!-- 二级菜单 -->

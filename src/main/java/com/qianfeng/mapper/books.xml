@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.dao.BooksDao">
+    <select id="BooksCount" resultType="java.lang.Integer">
+        SELECT count(id) from books
+    </select>
+    <resultMap id="m1" type="com.qianfeng.bean.Books">
+        <result property="id" column="id"></result>
+        <result property="book_name" column="book_name"></result>
+        <result property="book_introduce" column="book_introduce"></result>
+        <result property="book_image" column="book_image"></result>
+        <result property="book_price" column="book_price"></result>
+        <result property="book_count" column="book_count"></result>
+        <association property="bookTypes" javaType="com.qianfeng.bean.BookTypes">
+            <result property="books_type" column="books_type"></result>
+        </association>
+    </resultMap>
+    <select id="findAllBooks" resultMap="m1">
+        SELECT b.id,b.book_name,b.book_introduce,b.book_image,b.book_price,b.book_count,bt.books_type from books b left join book_types bt on b.book_typeid=bt.id
+    </select>
+    <select id="bfindAllBooks" resultMap="m1">
+        SELECT b.id,b.book_name,b.book_introduce,b.book_image,b.book_price,b.book_count,bt.books_type from books b left join book_types bt on b.book_typeid=bt.id limit #{start},#{pagesize}
+    </select>
+    <select id="findAllBooksById" resultMap="m1">
+        SELECT b.id,b.book_name,b.book_introduce,b.book_image,b.book_price,b.book_count,bt.books_type from books b left join book_types bt on b.book_typeid=bt.id where b.id=#{id}
+    </select>
+    <insert id="addBooks" parameterType="com.qianfeng.bean.Books">
+        INSERT INTO books VALUES (#{id},#{book_name},#{book_introduce},#{book_image},#{book_price},#{book_count},#{book_typeid})
+    </insert>
+</mapper>

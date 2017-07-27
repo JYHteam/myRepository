@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.dao.BooktypesDao">
+    <select id="BookTypesCount" resultType="java.lang.Integer">
+        SELECT count(id) from book_types
+    </select>
+   <select id="findAllBookTypes" resultType="com.qianfeng.bean.BookTypes">
+       SELECT * from book_types limit #{start},#{pagesize}
+   </select>
+    <select id="pfindAllBookTypes" resultType="com.qianfeng.bean.BookTypes">
+        SELECT * from book_types
+    </select>
+    <insert id="addBookType" parameterType="com.qianfeng.bean.BookTypes">
+        INSERT INTO book_types VALUES (#{id},#{books_type})
+    </insert>
+</mapper>

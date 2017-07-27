@@ -91,7 +91,7 @@
             var pager=$("#mytable").datagrid("getPager");
             pager.pagination({
                 total:d.total,
-                pageSize:5,
+                pageSize:size,
                 pageList:[5,10],
                 pageNumber:p,
                 onSelectPage:function (page,size) {
@@ -133,22 +133,27 @@
         if (role) {
             $.get("findResourceByRole.do",{roleId:role.id},function (d) {
                 alert("角色资源"+d);
+
                 var datas= JSON.parse(d);
+                $("#resource_window").window("open");
                 for(var i=0;i<datas.length;i++){
                     var node= $("#resource_tree").treegrid("find",datas[i].id);
-                    //alert(node);
                     var node1 = JSON.stringify(node);
-                   if(node.checkState='uncheck'){
-                        node.checkState='check'
-                    }
-                    $("#resource_tree").treegrid("select",node.id);
+                    $("#resource_tree").treegrid("check",node.id);
+                }
+
+            })
+            $("#resource_window").window({
+                onClose:function(){
+                    $("#resource_tree").treegrid("reload");
                 }
             })
-            $("#resource_window").window("open");
+
         }else {
             $.messager.alert("系统提示", "请选择需要分配资源的账号");
         }
     }
+
     function dofenp() {
         //获取选择的角色
         var role = $("#mytable").datagrid("getSelected");
@@ -170,11 +175,11 @@
             contentType: "application/json",
             //服务端返回的数据
             success: function (d) {
-
                 alert(d);
                 if(d==1){
                     $.messager.alert("提示","恭喜您分配资源权限成功");
-                    load2(1,5)
+                    load2(1,5);
+                   // $("#resource_tree").treegrid("reload");
                     $("#resource_window").window("close");
                 }else{
                     $.messager.alert("提示","对不起本次操作失败");
