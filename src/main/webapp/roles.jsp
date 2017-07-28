@@ -38,6 +38,29 @@
         </form>
     </div>
 </div>
+<div id="resource_window" title="资源分配" class="easyui-window"
+     style="width:500px;height:700px;" data-options="closed:true,modal:true">
+    <div id="resource_tree" class="easyui-treegrid" data-options="url:'findAllResources.do',
+				method: 'get',
+				rownumbers: true,
+				showFooter: true,
+				idField: 'id',
+				singleSelect:false,
+                treeField: 'name',
+                columns: [[
+                    {field: 'id',title:'id',checkbox:true,width:100},
+                    {field: 'name', title: '资源目录', width: 160},
+                    {field: 'path', title: '资源路径', width: 120}
+                ]]
+				<%--treeField: 'region'--%>">
+
+
+    </div>
+    <div style="display: flex; justify-content:center">
+        <a class="easyui-linkbutton" href="javascript:dofenp()">分配</a>
+    </div>
+
+</div>
 
 <script type="text/javascript">
     function init() {
@@ -91,6 +114,13 @@
                     iconCls: "icon-edit",
                     handler: function () {
                         update();
+                    }
+                },
+                {
+                    text: "分配资源权限",
+                    iconCls: "icon-search",
+                    handler: function () {
+                        fenResource();
                     }
                 }
             ]
@@ -230,7 +260,62 @@
             }
         });
     }
+    function fenResource() {
+        var role= $("#roles").datagrid("getSelected");
+        //判断是否选择好账号,并显示原来的资源
+        if (role) {
+            $.get("findResourceByRole.do",{roleId:role.id},function (d) {
+                alert("角色资源"+d);
+                var datas= JSON.parse(d);
+                for(var i=0;i<datas.length;i++){
+                    var node= $("#resource_tree").treegrid("find",datas[i].id);
+                    //alert(node);
+                    var node1 = JSON.stringify(node);
+                    if(node.checkState='uncheck'){
+                        node.checkState='check'
+                    }
+                    $("#resource_tree").treegrid("select",node.id);
+                }
+            })
+            $("#resource_window").window("open");
+        }else {
+            $.messager.alert("系统提示", "请选择需要分配资源的账号");
+        }
+    }
+    function dofenp() {
+        //获取选择的角色
+        var role = $("#roles").datagrid("getSelected");
+        //获取用户选择的角色
+        var data = $("#resource_tree").treegrid("getChecked");
+        var node1 = JSON.stringify(data);
+        alert(node1);
+        var as = [role.id];
+        for (var i = 0; i < data.length; i++) {
+            as[i + 1] = data[i].id;
+        }
+        //将数组转化为json字符串
+        var arrjson = JSON.stringify(as);
+        alert(arrjson)
+        $.ajax({
+            url: "fenpResource.do",
+            method: "post",
+            data: arrjson,
+            contentType: "application/json",
+            //服务端返回的数据
+            success: function (d) {
 
+                alert(d);
+                if(d==1){
+                    $.messager.alert("提示","恭喜您分配资源权限成功");
+                    load2(1,5)
+                    $("#resource_window").window("close");
+                }else{
+                    $.messager.alert("提示","对不起本次操作失败");
+                }
+            }
+        });
+    }
 
 </script>
+
 

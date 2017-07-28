@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 @EnableCaching//开启缓存支持
 public class RedisConfig extends CachingConfigurerSupport{
     @Bean //将方法返回的对象交由spring管理
+
     public JedisConnectionFactory createFactory(){
         JedisConnectionFactory factory = new JedisConnectionFactory();
         factory.setHostName("127.0.0.1");
@@ -20,9 +21,9 @@ public class RedisConfig extends CachingConfigurerSupport{
     }
     @Bean
     public RedisTemplate<String,String> createTemplate(JedisConnectionFactory factory){
-       RedisTemplate<String,String> template=new RedisTemplate<String, String>();
-       template.setConnectionFactory(factory);
-       return template;
+        RedisTemplate<String,String> template=new RedisTemplate<String, String>();
+        template.setConnectionFactory(factory);
+        return template;
     }
     @Bean
     public RedisCacheManager createCache(RedisTemplate<String,String> template){

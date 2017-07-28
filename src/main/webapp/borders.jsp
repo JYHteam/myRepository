@@ -1,6 +1,9 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div id="order_tree"></div>
+<div id="look_window" >
+
+</div>
 <script type="text/javascript">
     function  init() {
         $("#order_tree").datagrid({
