@@ -207,11 +207,8 @@
         $("#updateroles_form").form("load", {
             id: update.id,
             roles_name: update.roles_name,
-            roles_status: update.roles_status,
-
+          //  roles_status: update.roles_status,
         });
-
-
     }
     function saveUpdate() {
         $("#updateroles_form").form("submit", {

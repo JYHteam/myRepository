@@ -29,4 +29,18 @@
     <insert id="addBooks" parameterType="com.qianfeng.bean.Books">
         INSERT INTO books VALUES (#{id},#{book_name},#{book_introduce},#{book_image},#{book_price},#{book_count},#{book_typeid})
     </insert>
+
+    <!--删除书籍-->
+    <delete id="deleteBooks">
+        delete from books where id IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+    </delete>
+
+    <!--修改书籍-->
+    <update id="updateBook" parameterType="com.qianfeng.bean.Books">
+        UPDATE books set book_name=#{book_name},book_introduce=#{book_introduce},book_image=#{book_image},
+        book_price=#{book_price},book_count=#{book_count},book_typeid=#{book_typeid} where id={id}
+    </update>
 </mapper>
