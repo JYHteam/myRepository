@@ -32,6 +32,12 @@ public class RolesController {
 
         return rs.findAllRoles(page, pagesize);
     }
+    //用于下拉框的查询
+    @RequestMapping("boxfindAllRoles.do")
+    public List<Roles> boxfindAllRoles(){
+        return  rd.boxfindAllRoles();
+
+    }
 
     //添加角色
     @RequestMapping("addRoles.do")
@@ -44,6 +50,7 @@ public class RolesController {
     @RequestMapping("deleteRoles.do")
     @ResponseBody
     public String deleteRoles(@RequestBody ArrayList<Integer> data) {
+
         return rs.deleteRoles(data);
     }
 
