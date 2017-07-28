@@ -168,7 +168,7 @@
     function saveBook() {
         var formData = new FormData(document.getElementById("books_form"));
         var data = CKEDITOR.instances.book_introduce.getData();
-        alert(formData)
+       // alert(formData)
         formData.append("book_introduce", data);
         $.ajax({
             url: 'addBooks.do',
