@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -39,6 +40,17 @@ public class OrdersServices {
             data.put("order_id",orders.getId());
             data.put("list",books);
             od.addOrderDetails(data);
+        }
+
+        public Map<String,Object> findAllBorders(int page,int pagesize){
+            int start=(page-1)*pagesize;
+            int total=1;
+
+            List<Orders> allBorders = od.findAllBorders(start,pagesize);
+            Map<String,Object> ordersMap=new HashMap<String, Object>();
+            ordersMap.put("total",total);
+            ordersMap.put("allBorders",allBorders);
+            return  ordersMap;
         }
 
 }

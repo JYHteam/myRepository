@@ -11,6 +11,14 @@ public class Orderdetail implements Serializable{
   private float product_price;
   private int product_number;
   private String product_remark;
+  private String product_marque;
+  private String product_mode_desc;
+  private String product_mode_params;
+  private float discount_rate;
+  private  float discount_amount;
+  private int number;
+  private  float subtotal;
+  private String remark;
 
     public Orderdetail() {
     }
@@ -79,5 +87,69 @@ public class Orderdetail implements Serializable{
 
     public void setProduct_remark(String product_remark) {
         this.product_remark = product_remark;
+    }
+
+    public String getProduct_marque() {
+        return product_marque;
+    }
+
+    public void setProduct_marque(String product_marque) {
+        this.product_marque = product_marque;
+    }
+
+    public String getProduct_mode_desc() {
+        return product_mode_desc;
+    }
+
+    public void setProduct_mode_desc(String product_mode_desc) {
+        this.product_mode_desc = product_mode_desc;
+    }
+
+    public String getProduct_mode_params() {
+        return product_mode_params;
+    }
+
+    public void setProduct_mode_params(String product_mode_params) {
+        this.product_mode_params = product_mode_params;
+    }
+
+    public float getDiscount_rate() {
+        return discount_rate;
+    }
+
+    public void setDiscount_rate(float discount_rate) {
+        this.discount_rate = discount_rate;
+    }
+
+    public float getDiscount_amount() {
+        return discount_amount;
+    }
+
+    public void setDiscount_amount(float discount_amount) {
+        this.discount_amount = discount_amount;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public float getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(float subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }
