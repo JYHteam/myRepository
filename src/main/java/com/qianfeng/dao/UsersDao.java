@@ -20,15 +20,18 @@ public interface UsersDao {
     //查询所有用户，用于管理员操作
     List<Users> findAllUsers(@Param(value="start") int start, @Param(value="pagesize") int pagesize);
     //添加用户
-    void addUsers(Map<String,Object> map);
+    void addUsers(Users users);
+    void insertUR(@Param(value="role_id") int role_id, @Param(value="user_id") int user_id);
     //用于在添加用户时，验证数据库中是否已存在
     Map<String,String> validboxFindUsers(Users users);
     //删除用户
     void removeUsersByStatus(ArrayList<Integer> data);
     //修改用户信息
-    void updateUsers(Map<String,Object>map);
+    void updateUsers(Users users);
+    void editRolesUsers(@Param(value="role_id") int role_id, @Param(value="user_id") int user_id);
     //搜索
     List<Users> searchUsersBylike(Map<String,String>data);
     //通过用户查询角色
     Roles findRolesByUser(int user_id);
+    int findIdByName(String users_account);
 }

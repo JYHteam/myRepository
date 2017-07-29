@@ -30,19 +30,35 @@
          </if>
         </where>
     </select>
-    <select id="findAllUsers" resultType="com.qianfeng.bean.Users">
-        SELECT * FROM users WHERE users_status=1 limit #{start},#{pagesize}
+    <resultMap id="m3" type="com.qianfeng.bean.Users">
+        <result property="id" column="uid"></result>
+        <result property="users_account" column="ua"></result>
+        <association property="roles" javaType="com.qianfeng.bean.Roles">
+            <result property="roles_name" column="rn"></result>
+        </association>
+    </resultMap>
+    <select id="findAllUsers" resultMap="m3">
+        SELECT u.id as uid,u.users_account as ua,r.id as rid,r.roles_name as rn FROM users u
+        LEFT JOIN roles_users ru ON ru.user_id=u.id
+        LEFT  JOIN roles r ON ru.role_id=r.id
+        WHERE u.users_status=1 and r.roles_status=1 limit #{start},#{pagesize}
     </select>
     <!--添加新用户-->
-    <insert id="addUsers" parameterType="map">
-        INSERT INTO users(users_account,users_pwd)VALUES (#{users_account},#{users_pwd})
+    <insert id="addUsers" parameterType="com.qianfeng.bean.Users">
+        INSERT INTO users(users_account,users_pwd,users_status)VALUES (#{users_account},#{users_pwd},#{users_status})
     </insert>
     <!--验证用户是否存在-->
     <select id="validboxFindUsers" parameterType="com.qianfeng.bean.Users" resultType="map">
         SELECT users_account FROM users where users_account=#{users_account}
     </select>
+    <insert id="insertUR" >
+        INSERT  into roles_users VALUES(#{role_id},#{user_id});
+    </insert>
+    <select id="findIdByName" resultType="java.lang.Integer">
+        SELECT id from users WHERE users_account=#{users_account};
+    </select>
     <!--修改用户信息-->
-    <update id="updateUsers" parameterType="map">
+ <!--   <update id="updateUsers" parameterType="map">
         UPDATE users u <set >
         <if test="users_account != null" >
             u.users_account=#{users_account},
@@ -52,6 +68,10 @@
         </if>
     </set>
         where u.id = #{id}
+    </update>-->
+    <!--根据用户ID修改roleID-->
+    <update id="editRolesUsers" parameterType="java.lang.Integer">
+        update roles_users set role_id=#{role_id} where user_id=#{user_id}
     </update>
     <!--删除用户信息-->
     <update id="removeUsersByStatus">

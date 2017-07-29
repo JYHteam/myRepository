@@ -17,10 +17,11 @@
     <div style="width: 100%;height:100%;display:flex;justify-content:center;align-items:center;background-color: greenyellow;">
         <form id="user_form" action="addUsers.do" method="post">
             <input type="hidden" name="id"/>
-            &nbsp;&nbsp; &nbsp;&nbsp;用 &nbsp;户&nbsp;名:<input id="users_account" type="text" name="users_account" class="easyui-validatebox" data-options="required:true,validType:'users_account'"/><br/>
+            用 户名:<input id="users_account" type="text" name="users_account" class="easyui-validatebox" data-options="required:true,validType:'users_account'"/><br/>
             <br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;密 &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;码:<input id="users_pwd" type="password" name="users_pwd" class="easyui-validatebox" data-options="required:true"/><br/>
-            再次确认密码:<input id="rusers_pwd" type="password" name="rusers_pwd" class="easyui-validatebox" required="required" validType="equals['#users_pwd']"/><br/>
+            角色：<input name="roles.roles_name" class="easyui-combobox"
+                      data-options="url:'bfindAllRoles.do',valueField:'id', textField:'roles_name',panelHeight:'auto' "/><br/>
+            密 码:<input id="users_pwd" type="password" name="users_pwd" class="easyui-validatebox" data-options="required:true"/><br/>
             <br/>
             <div>
                 <a  class="easyui-linkbutton" href="javascript:saveUser()">保存</a>
@@ -28,15 +29,18 @@
         </form>
     </div>
 </div>
+
 <%--修改用户--%>
 <div id="users_windows" class="easyui-window"
      style="width:400px;height:500px" data-options="closed:true,modal:true,title:'修改用户'">
     <div style="width: 100%;height:100%;display:flex;justify-content:center;align-items:center;background-color: greenyellow;">
         <form id="users_form" action="updateUsers.do" method="post">
             <input type="hidden" name="id"/>
-            用户名:<input type="text" name="users_account"/><br/>
+            用户名:<input type="text" name="users_account" readonly="true"/><br/>
             <br/>
-            密 &nbsp;&nbsp;码:<input type="password" name="users_pwd"/><br/>
+            角色：<input name="roles_name" class="easyui-combobox"
+                        data-options="url:'bfindAllRoles.do',valueField:'id', textField:'roles_name',panelHeight:'auto' "/><br/>
+            <%--密 &nbsp;&nbsp;码:<input type="password" name="users_pwd"/><br/>--%>
             <br/>
             <div>
                 <a  class="easyui-linkbutton" href="javascript:saveUsers()">保存</a>
@@ -47,8 +51,9 @@
     <script type="text/javascript">
         function init() {
             $("#user_main").datagrid({
-
+                title:'用户管理',
                pagination:true,
+                rownumbers:true,
                 columns:[[
                     {
                         field:"id",
@@ -60,22 +65,34 @@
                         field:"users_account",
                         title:"账号",
                         width:100
-                    }
+                    },
+                    {
+                        field:"roles_name",
+                        title:"角色名",
+                        width:100,
+                        formatter: function(value,row,index){
+                            if (row){
+                                return row.roles.roles_name;
+                            } else {
+                                return value;
+                            }
+                        }
+                    },
                 ]],
                 toolbar:[
                     {
                         text:"添加",
-                        iconCls:"icon_add",
+                        iconCls:"icon-add",
                         handler:function () {addUsers();}
                     },
                     {
                         text:"删除",
-                        iconCls:"icon_remove",
+                        iconCls:"icon-remove",
                         handler:function () {removeUsersByStatus();}
                     },
                     {
                         text:"修改",
-                        iconCls:"icon_edit",
+                        iconCls:"icon-edit",
                         handler:function () {updateUsers();}
                     }
                 ]
@@ -99,7 +116,7 @@
                pager.pagination({
                    total:d.total,
                    pageSize:pagesize,
-                   pageList:[5,10,20],
+                   pageList:[5,10],
                    pageNumber:page,
                   onSelectPage:function(page,pagesize){
 
@@ -121,18 +138,7 @@
             $("#user_windows").window("open");
         }
         function saveUser() {
-            $("#users_account").validatebox({
-                required: true,
-                validType: 'text'
-            }),
-                $.extend($.fn.validatebox.defaults.rules, {
-                    equals: {
-                        validator: function(value,param){
-                            return value == $(param[0]).val();
-                        },
-                        message: 'Field do not match.'
-                    }
-                });
+
             $("#user_form").form("submit",{
                 success:function (xhr) {
                     if(xhr==1){
@@ -179,16 +185,18 @@
         //对用户进行修改操作
         function updateUsers() {
             var dataUsers=$("#user_main").datagrid("getSelected");
+            var jsons= JSON.stringify(dataUsers);
+            alert(jsons);
             $("#users_form").form("load",{
                 id:dataUsers.id,
                 users_account:dataUsers.users_account,
-                users_pwd:dataUsers.users_pwd,
+                roles_name:dataUsers.roles.roles_name
 
             });
             $("#users_windows").window("open");
         }
         function saveUsers() {
-            alert("修改1");
+            //alert("修改1");
             $("#users_form").form("submit",{
                 success:function (xhr) {
                     alert("修改2"+xhr);
