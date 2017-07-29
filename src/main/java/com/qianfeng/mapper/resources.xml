@@ -19,7 +19,7 @@
     </select>
     <!--根据角色查询资源权限-->
     <select id="findResourcesByRole" resultMap="resourcesMap1">
-        SELECT id, resource_name , resource_path ,(CASE WHEN resource_parentid=0 THEN NULL ELSE resource_parentid END) as resource_parentid from resources p LEFT JOIN roles_resources r on p.id=r.resource_id WHERE r.roles_id=#{roles_id} and resource_status=0
+        SELECT p.id, resource_name , resource_path ,(CASE WHEN resource_parentid=0 THEN NULL ELSE resource_parentid END) as resource_parentid from resources p LEFT JOIN roles_resources r on p.id=r.resource_id WHERE r.roles_id=#{roles_id} and resource_status=0
     </select>
     <!--根据角色删除资源权限-->
     <delete id="deleteResourcesByRole">
