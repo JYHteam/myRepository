@@ -21,14 +21,17 @@
     <select id="findAllRoles" resultType="com.qianfeng.bean.Roles">
         select * from Roles where roles_status=1 limit #{start},#{pagesize};
     </select>
-    <!--  <select id="findAllRoles" resultMap="m1">
-            select r.id as id,r.roles_name as roles_name,u.users_account as users_account from roles r left join roles_users ru on r.id=ru.role_id
-             left join users  u on u.id=ru.user_id
-            limit #{start},#{pagesize}
-        </select>-->
+    <!--查询所有的角色-->
+    <select id="bfindAllRoles" resultType="com.qianfeng.bean.Roles">
+        select * from Roles where roles_status=1 ;
+    </select>
+
     <!--用于下拉框的查询-->
     <select id="boxfindAllRoles">
         SELECT roles_name from Roles where roles_status=1
+    </select>
+    <select id="findIdByRolename" resultType="java.lang.Integer">
+        SELECT id from Roles where roles_name=#{roles_name} and roles_status=1
     </select>
     <!--添加角色-->
     <insert id="addRoles">
@@ -48,16 +51,6 @@
     <!--修改-->
     <update id="updaterole" parameterType="com.qianfeng.bean.Roles">
         UPDATE roles set roles_name=#{roles_name},roles_status=#{roles_status} where id=#{id}
-        <!--  UPDATE roles r
-          <set>
-              <if test="roles_name != null">
-                  r.roles_name=#{roles_name},
-              </if>
-              <if test="roles_status != null">
-                  r.roles_status=#{roles_status}
-              </if>
-          </set>
-          where r.id = #{id}-->
     </update>
     <!--模糊搜索-->
     <select id="searchRolesBylike" parameterType="map" resultType="com.qianfeng.bean.Roles">

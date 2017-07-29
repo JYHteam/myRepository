@@ -15,9 +15,9 @@ import java.util.Map;
 public interface RolesDao {
     //查询显示所有的角色
     List<Roles> findAllRoles(@Param(value = "start") int start, @Param(value = "pagesize") int pagesize);
-
+    List<Roles> bfindAllRoles();
     int countRoles();
-
+    int findIdByRolename(String roles_name);
     //用于下拉框的查询
     List<Roles> boxfindAllRoles();
 

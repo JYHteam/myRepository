@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -78,7 +79,6 @@ public class UsersController {
     @RequestMapping("findAllUsers.do")
     @ResponseBody
     public Map<String,Object> findAllUsers(int page,int pagesize){
-        System.out.println(page+"......"+pagesize);
         return us.findAllUsers(page,pagesize);
     }
     //添加新用户
@@ -97,9 +97,9 @@ public class UsersController {
     //修改用户信息
     @RequestMapping("updateUsers.do")
     @ResponseBody
-    public int updateUsers(Users users){
-        System.out.println("修改users"+users);
-        return us.updateUsers(users);
+    public int updateUsers(Users users, @RequestParam( value = "roles_name") String  roles_name){
+        System.out.println("角色名字***************"+roles_name);
+        return us.updateUsers(users.getId(),roles_name);
     }
     //搜索用户
     @RequestMapping("searchUsersBylike.do")

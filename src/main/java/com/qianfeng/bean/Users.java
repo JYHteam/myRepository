@@ -12,8 +12,8 @@ public class Users implements Serializable {
     public Users() {
     }
 
-    public Users(int id, String users_account, String users_pwd, int users_status) {
-        this.id = id;
+    public Users( String users_account, String users_pwd, int users_status) {
+
         this.users_account = users_account;
         this.users_pwd = users_pwd;
         this.users_status = users_status;

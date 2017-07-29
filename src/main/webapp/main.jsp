@@ -66,7 +66,7 @@
             <ul class="layui-nav right" >
                 <li class="layui-nav-item">
                     <div >
-                        <span class="easyui-menubutton glyphicon glyphicon-user" data-options="menu:'#mm1'">欢迎您：<span style="color:red;font-size:20px">${sessionScope.role.roles_name}</span></span>
+                        <span class="easyui-menubutton glyphicon glyphicon-user" data-options="menu:'#mm1'">欢迎您：<span style="color:red;font-size:20px">${sessionScope.user.users_account}</span></span>
 
                         <div id="mm1" style="width: 100px">
                             <!-- 二级菜单 -->

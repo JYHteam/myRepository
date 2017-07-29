@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 @Repository
 public interface BooksDao {
@@ -19,4 +20,10 @@ public interface BooksDao {
     Books findAllBooksById(String id);
     int BooksCount();
     void addBooks(Books books);
+
+
+    //删除书籍
+    int deleteBooks(ArrayList<String> dbook);
+    //修改书籍
+    void updateBooks(Books books);
 }

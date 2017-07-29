@@ -32,6 +32,12 @@ public class RolesController {
 
         return rs.findAllRoles(page, pagesize);
     }
+    @RequestMapping("bfindAllRoles.do")
+    @ResponseBody
+    public List<Roles> findAllRoles() {
+
+        return rd.bfindAllRoles();
+    }
     //用于下拉框的查询
     @RequestMapping("boxfindAllRoles.do")
     public List<Roles> boxfindAllRoles(){
