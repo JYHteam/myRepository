@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/easyui.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
     <script>
         function init() {

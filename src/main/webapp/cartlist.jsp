@@ -35,16 +35,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <%--  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人信息中心<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">登录</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">会员中心</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">退出</a></li>
-                    </ul>
-                </li>--%>
+
             </ul>
             <form class="navbar-form navbar-left">
                 <div class="form-group">
@@ -74,13 +65,13 @@
 </div>
 <div class="col-md-9">
     <table class="table table-striped">
-        <caption>书籍详情</caption>
+        <caption>购物车详情</caption>
         <thead>
         <tr>
             <th>id</th>
             <th>书名</th>
-            <th>总价</th>
             <th>数量</th>
+            <th>总价</th>
         </tr>
         </thead>
         <tbody>
@@ -88,11 +79,9 @@
             <tr>
                 <td>${item.id}</td>
                 <td>${item.book_name}</td>
-                <td>${(item.book_price*item.cart_count)}</td>
                 <td>${item.cart_count}</td>
+                <td>${(item.book_price*item.cart_count)}</td>
                 <td>
-                   <%-- <a class="label label-primary" href="javascript:buyBook('${item.id}')">购买</a>--%>
-
                     <button type="button" class="btn btn-danger" onclick="deleteBook('${item.id}')">删除</button>
                 </td>
             </tr>
@@ -100,12 +89,11 @@
 
         </tbody>
     </table>
-
-</div>
-<!--下单-->
-<div>
-
-  应付：￥${cart.total()}  <a type="button" class="btn btn-primary" href="/toOders.do">下单</a>
+    <hr/>
+    <!--下单-->
+    <div >
+        应付：￥${cart.total()}  <a type="button" class="btn btn-primary" href="gaddress.jsp">下单</a>
+    </div>
 </div>
 
 <!-- 模态框（Modal） -->

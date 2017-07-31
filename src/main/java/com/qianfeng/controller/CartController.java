@@ -16,6 +16,11 @@ public class CartController {
     @Resource
     private BooksService bs;
 
+    /**
+     * 查询到所有的书籍商品
+     * @param session
+     * @return
+     */
     @RequestMapping("findAllBooks.do")
     public String findAllBooks(HttpSession session){
         List<Books> allBooks = bs.findAllBooks();

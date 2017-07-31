@@ -13,6 +13,7 @@
         </foreach>
     </insert>
     <resultMap id="m1" type="com.qianfeng.bean.Orders">
+        <result property="id" column="id"></result>
         <result property="order_no" column="order_no"></result>
         <result property="order_totalprice" column="order_totalprice"></result>
         <result property="order_time" column="order_time"></result>
@@ -30,9 +31,16 @@
         </association>
     </resultMap>
     <select id="findAllBorders" resultMap="m1">
-        SELECT o.order_no as order_no,m.member_nickname as nickname ,da.realname as realname,o.Order_totalprice as order_totalprice,o.oreder_time as order_time,
+        SELECT o.id  as id, o.order_no as order_no,m.member_nickname as nickname ,da.realname as realname,o.Order_totalprice as order_totalprice,o.oreder_time as order_time,
 o.pay_channel as pay_channel,o.order_status as order_status,ol.logistics_type as logistics_type,ol.orderlogistics_status as orderlogistics_status from orders o
 LEFT JOIN  order_logistics ol on o.express_no=ol.express_no
 LEFT JOIN  member m on o.member_id=m.id  LEFT JOIN delivery_address da on o.address_id=da.id limit #{start},#{pagesize}
     </select>
+    <!--根据订单ID查询订单详情-->
+    <select id="findOrderDetialById" resultType="com.qianfeng.bean.Orderdetail">
+      SELECT * from order_detail WHERE order_id=#{order_id}
+    </select>
+    <update id="sureOrders" parameterType="com.qianfeng.bean.Orders">
+        UPDATE orders set order_status=#{order_status} where id=#{id}
+    </update>
 </mapper>
